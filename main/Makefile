@@ -1,5 +1,5 @@
 ARDUINO_DIR = /usr/share/arduino
-ARDUINO_PORT = /dev/ttyACM*
+ARDUINO_PORT = /dev/ttyUSB0
 
 USER_LIB_PATH = ./libraries
 #ARDUINO_LIBS += ./libraries
