@@ -2,6 +2,10 @@
 ### pour le MEGA
 ```Bash
 sudo apt-get install arduino.mk
+
+ou 
+
+yay arduino-mk
 ```
 ### pour le esp (Mega est un preréquis)
 Installation pip si pas encore installé

@@ -1,8 +1,6 @@
 #include "test.h"
-#include "test2.h"
 void setup(){
     testfunc2();
-    testfunc3();
 	pinMode(13, OUTPUT);
 	Serial.begin(9600);
 }
