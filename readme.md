@@ -58,6 +58,6 @@ sudo make monitor
 ### ESP
 
 ```
-sudo serial /dev/ttyUSB0
+sudo screen /dev/ttyUSB0
 ```
 
