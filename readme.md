@@ -6,6 +6,9 @@ sudo apt-get install arduino.mk
 ou 
 
 yay arduino-mk
+sudo mv /usr/share/arduino/hardware/archlinux-arduino /usr/share/arduino/hardware/arduino
+
+sudo pacman -S screen
 ```
 ### pour le esp (Mega est un preréquis)
 Installation pip si pas encore installé
@@ -28,7 +31,12 @@ sudo python3 get.py
 
 ## Compiler
 ### Mega
-je sais pas encore
+```
+make
+make help
+sudo make updload
+```
+
 ### Esp
 ```Bash
 make help
@@ -36,3 +44,20 @@ make clean
 make all
 make flash
 ```
+
+## serial monitor
+
+### Mega
+
+```
+sudo make monitor
+```
+
+
+
+### ESP
+
+```
+sudo screen /dev/ttyUSB0
+```
+
