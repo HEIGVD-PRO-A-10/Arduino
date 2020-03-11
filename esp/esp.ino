@@ -1,5 +1,5 @@
-#include <WIFI.h>
-#include <HTPPClient.h>
+#include <HTTPClient.h>
+#include <WiFi.h>
 
 void setup(){
 	pinMode(2, OUTPUT);

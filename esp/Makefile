@@ -2,7 +2,7 @@ ESP_ROOT=/usr/share/arduino/hardware/espressif/esp32
 ARDUINO_PORT=/dev/ttyUSB0
 BOARD=esp32
 CHIP=esp32
-
+ARDUINO_DIR=/usr/share/arduino/hardware/espressif/esp32/
 
 #====================================================================================
 # makeESPArduino

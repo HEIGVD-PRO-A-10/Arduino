@@ -29,7 +29,26 @@ cd tools
 sudo python3 get.py
 ```
 
+**WifiClientSecure BUG:**
+
+```Bash
+
+Error message :
+In file included from esp.ino:1:0:
+/usr/share/arduino/hardware/espressif/esp32/libraries/HTTPClient/src/HTTPClient.h:35:30: fatal error: WiFiClientSecure.h: No such file or directory
+compilation terminated.
+make: *** [Makefile:277: /tmp/mkESP/esp_esp32/esp_.cpp.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from /usr/share/arduino/hardware/espressif/esp32/libraries/HTTPClient/src/HTTPClient.cpp:40:0:
+
+Resolution :
+sudo cp /usr/share/arduino/hardware/espressif/esp32/libraries/WiFiClientSecure/src/* /usr/share/arduino/hardware/espressif/esp32/libraries/WiFi/src
+```
+
+
+
 ## Compiler
+
 ### Mega
 ```
 make
