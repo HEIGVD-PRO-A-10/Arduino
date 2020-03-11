@@ -5,10 +5,15 @@ sudo apt-get install arduino.mk
 
 ou 
 
+yay arduino
 yay arduino-mk
 sudo mv /usr/share/arduino/hardware/archlinux-arduino /usr/share/arduino/hardware/arduino
 
 sudo pacman -S screen
+
+Au besoin:
+sudo pacman -S arduino-avr-core
+
 ```
 ### pour le esp (Mega est un preréquis)
 Installation pip si pas encore installé

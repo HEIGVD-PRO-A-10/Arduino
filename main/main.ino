@@ -1,11 +1,15 @@
 #include "test.h"
-void setup(){
+#include <Wire.h>
+
+void setup() {
+
     testfunc2();
 	pinMode(13, OUTPUT);
 	Serial.begin(9600);
 }
 
-void loop(){
+void loop() {
+
 	digitalWrite(13, HIGH);
 	delay(100);
 	digitalWrite(13, LOW);
