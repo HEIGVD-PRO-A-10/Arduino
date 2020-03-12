@@ -58,7 +58,7 @@ sudo cp /usr/share/arduino/hardware/espressif/esp32/libraries/WiFiClientSecure/s
 ```
 make
 make help
-sudo make updload
+sudo make upload
 ```
 
 ### Esp
