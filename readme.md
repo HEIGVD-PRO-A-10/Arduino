@@ -50,7 +50,11 @@ Resolution :
 sudo cp /usr/share/arduino/hardware/espressif/esp32/libraries/WiFiClientSecure/src/* /usr/share/arduino/hardware/espressif/esp32/libraries/WiFi/src
 ```
 
+### Version 2.0
 
+suivre:
+
+https://github.com/thunderace/Esp8266-Arduino-Makefile#installation-and-test
 
 ## Compiler
 

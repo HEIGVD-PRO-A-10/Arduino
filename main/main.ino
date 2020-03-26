@@ -1,18 +1,19 @@
-#include "test.h"
-#include <Wire.h>
 
+#include "EspConnection.h"
+
+EspConnection espConnection;
 void setup() {
-
-    testfunc2();
-	pinMode(13, OUTPUT);
-	Serial.begin(9600);
+    delay(5000);
+    Serial.begin(9600);
+    espConnection.setup();
 }
 
 void loop() {
-
-	digitalWrite(13, HIGH);
-	delay(100);
-	digitalWrite(13, LOW);
-	delay(1000);
-	Serial.println("yooo");
+    Serial.println("send command!");
+    espConnection.sendCmdToEsp(65);
+    String jsonAnswer = espConnection.readAnswerFromEsp();
+    Serial.println(jsonAnswer);
+    delay(1000);
 }
+
+
