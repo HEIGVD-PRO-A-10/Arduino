@@ -62,7 +62,7 @@ https://github.com/thunderace/Esp8266-Arduino-Makefile#installation-and-test
 ```
 make
 make help
-sudo make updload
+sudo make upload
 ```
 
 ### Esp
