@@ -2,7 +2,7 @@ ARDUINO_DIR = /usr/share/arduino
 ARDUINO_PORT = /dev/ttyUSB0
 
 USER_LIB_PATH = ./libraries
-#ARDUINO_LIBS += ./libraries
+ARDUINO_LIBS += SPI MFRC522
 BOARD_TAG = mega
 BOARD_SUB = atmega2560
 
