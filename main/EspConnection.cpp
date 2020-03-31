@@ -4,6 +4,7 @@
 
 #include "EspConnection.h"
 #include <Arduino.h>
+
 String EspConnection::readAnswerFromEsp(){
     while(Serial2.available() <= 0);
     String answer = Serial2.readString();

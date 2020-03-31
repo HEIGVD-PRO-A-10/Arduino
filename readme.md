@@ -3,7 +3,7 @@
 ```Bash
 sudo apt-get install arduino.mk
 
-ou 
+# ou 
 
 yay arduino
 yay arduino-mk
@@ -11,8 +11,15 @@ sudo mv /usr/share/arduino/hardware/archlinux-arduino /usr/share/arduino/hardwar
 
 sudo pacman -S screen
 
-Au besoin:
+# Au besoin:
 sudo pacman -S arduino-avr-core
+
+# Pour installer les libraires du RFID
+# 1. cloner les sources dans un workspace
+git clone git@github.com:miguelbalboa/rfid.git
+# 2. déplacer les sources au bon endroit
+sudo mkdir /usr/share/arduino/hardware/arduino/avr/libraries/MFRC522
+cp -r rfid/* /usr/share/arduino/hardware/arduino/avr/libraries/MFRC522
 
 ```
 ### pour le esp (Mega est un preréquis)

@@ -1,6 +1,16 @@
-//
-// Created by nico on 31.03.20.
-//
+/**
+ * Crée le 31.03.2020
+ *
+ * Classe qui permet d'intéragir avec le lecteur RFID
+ *
+ * Utilisation:
+ * - Il faut dans tous les cas appeler la méthode setup() avant
+ *   de pouvoir effectuer des lectures
+ * - Une fois setup, il est possible de lire si une nouvelle
+ *   carte est scannée avec la méthode read()
+ * - Dès que l'information est lue, il est possible de la
+ *   récupérer ou de l'afficher.
+ */
 
 #ifndef ARDUINO_RFIDREADER_H
 #define ARDUINO_RFIDREADER_H
@@ -8,8 +18,8 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define RST_PIN         45          // Configurable, see typical pin layout above
-#define SS_PIN          44         // Configurable, see typical pin layout above
+#define RST_PIN         45          // Pin utilisée sur le méga
+#define SS_PIN          44          // Pin utilisée sur le méga
 
 class RFIDReader {
 private:
@@ -18,8 +28,33 @@ private:
 
 public:
 
+    /**
+     * Initialise le lecteur de carte RFID
+     */
     void setup();
-    void read();
+
+    /**
+     * Teste si une carte peut être lue et récupère les informations
+     * si elle le peut.
+     *
+     * @return true si quelque chose à pu être lu, false sinon
+     */
+    bool read();
+
+    /**
+     * Affiche l'Uid si une carte a été lue
+     */
+    void printUid();
+
+    /**
+     * Permet de récupérer l'UId qui a été lu. L'information se trouve
+     * sous la forme d'un tableau de byte.
+     *
+     * @param array Tableau qui sera rempli avec les bytes de l'Uid
+     *
+     * @return le nombre de bytes qui ont pu être écrit dans array
+     */
+    size_t getUIdBytes(byte *array);
 };
 
 #endif //ARDUINO_RFIDREADER_H
