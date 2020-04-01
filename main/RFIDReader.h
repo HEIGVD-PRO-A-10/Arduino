@@ -10,6 +10,27 @@
  *   carte est scannée avec la méthode read()
  * - Dès que l'information est lue, il est possible de la
  *   récupérer ou de l'afficher.
+ *
+ * Exemple d'utilisation:
+ *
+    RFIDReader rfidReader;
+    rfidReader.setup();
+    byte uId[MAX_UID_SIZE];
+
+    if (rfidReader.read()) {
+
+        rfidReader.printUid();
+        size_t size = rfidReader.getUIdBytes(uId);
+
+        Serial.print("Return Uid = ");
+        for (size_t i = 0; i < size; i++) {
+            Serial.print(uId[i], HEX);
+        }
+
+        Serial.println("");
+
+    }
+ *
  */
 
 #ifndef ARDUINO_RFIDREADER_H
