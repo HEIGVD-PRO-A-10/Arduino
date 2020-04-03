@@ -7,10 +7,9 @@
 
 
 #include "HTTPAnswer.h"
-class JSONanswer {
-public:
+
     String httpAnswerToJson(unsigned char cmd, HTTPAnswer httpAnswer);
-};
+
 
 
 #endif //TERMINAL_JSONANSWER_H

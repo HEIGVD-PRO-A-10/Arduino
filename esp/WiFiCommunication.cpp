@@ -1,14 +1,14 @@
 //
-// Created by deni on 26/03/2020.
+// Created by deni on 02/04/2020.
 //
 
-#include "Communication.h"
+#include "WiFiCommunication.h"
 #include "HTTPAnswer.h"
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
 
-bool Communication::connect() {
+bool WiFiCommunication::connect() {
     WiFi.begin(this->SSID, this->PASSWORD);
     for(int i = 0; i < this->CONNECT_TIMEOUT; ++i){
         if(WiFi.status() == WL_CONNECTED){
@@ -20,13 +20,13 @@ bool Communication::connect() {
     return false;
 }
 
-bool Communication::isConnected() {
+bool WiFiCommunication::isConnected() {
     return this->isConnected();
 }
 
-HTTPAnswer Communication::test() {
+HTTPAnswer WiFiCommunication::test() {
     HTTPClient http;
-    http.begin("https://en68kwqq65f2.x.pipedream.net/", this->root_ca);
+    http.begin("https://en68kwqq65f2.x.pipedream.net/", this->ROOT_CA);
     http.addHeader("api_token",  "yooowhatuppp");
     int htCode = http.GET();
     HTTPAnswer httpAnswer(htCode, http.getString());

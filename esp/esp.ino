@@ -1,45 +1,54 @@
 #include <Arduino.h>
 
 
-#include "Communication.h"
-#include "HTTPAnswer.h"
-#include "JSONanswer.h"
-void processCMD(unsigned char cmd);
+#include "Controller.h"
+#include "Base.h"
 
-Communication communication;
-int incomingByte = 0;
+//MODE
+#define DEBUG
+
+Controller controller;
+
+/**
+ * Setup function: executed at poweron of board.
+ * - setting up Serial connection to Arduino mega
+ * - connecting to wifi
+ *      if wifi connection fails after timeout, we're stop in endless loop.
+ */
 void setup(void){
+#ifdef DEBUG
     pinMode(2,OUTPUT);
 	Serial.begin(9600);
     digitalWrite(2,HIGH);
 	delay(5000);
     digitalWrite(2,LOW);
-    bool wifiStatus = communication.connect();
-    if(wifiStatus){
-        Serial.println("{code:100}");
-    }else{
-        Serial.println("{code:999}");
-        while(1);
-    }
+#endif
 
+    controller.setup();
 }
 
+/**
+ * main loop. looping the entire runtime.
+ */
 void loop(void){
-    if (Serial.available() > 0) {
-        digitalWrite(2,HIGH);
-        delay(500);
-        incomingByte = Serial.read();
-        processCMD((unsigned char)incomingByte);
+    int nbBytes = Serial.available();
+    unsigned char *buffer = (unsigned char*) malloc(nbBytes);
+
+    for( int i = 0; i < nbBytes && i < controller.getRxBufferSize(); ++i){
+        buffer[i] = Serial.read();
+    }
+
+    //invoke main controller
+    controller.process(buffer, nbBytes);
+}
+
+void writeOnSerial(char *bytes, unsigned int nbBytes){
+    for(int i = 0; i < nbBytes; ++i){
+        Serial.write(bytes[i]);
     }
 }
 
-void processCMD(unsigned char cmd){
-    JSONanswer parser;
-    switch (cmd){
-        case 65:
-            digitalWrite(2,LOW);
-            String json = parser.httpAnswerToJson(cmd, communication.test());
-            Serial.println(json);
-            break;
-    }
+void writeOnSerial(String msg){
+    Serial.print(msg);
 }
+

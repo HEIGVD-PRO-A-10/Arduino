@@ -4,7 +4,7 @@
 
 #include "JSONanswer.h"
 
-String JSONanswer::httpAnswerToJson(unsigned char cmd, HTTPAnswer httpAnswer) {
+String httpAnswerToJson(unsigned char cmd, HTTPAnswer httpAnswer) {
     String result = "{cmd:\"";
     result += cmd;
     result += "\",httpcode=";
