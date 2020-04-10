@@ -21,6 +21,13 @@ git clone git@github.com:miguelbalboa/rfid.git
 sudo mkdir /usr/share/arduino/hardware/arduino/avr/libraries/MFRC522
 cp -r rfid/* /usr/share/arduino/hardware/arduino/avr/libraries/MFRC522
 
+# Pour installer les librairies pour l'écran LCD
+# 1. Cloner les sources
+git clone git@github.com:johnrickman/LiquidCrystal_I2C.git
+# 2. Les déplacer au bon endroit
+sudo mkdir /usr/share/arduino/hardware/arduino/avr/libraries/LiquidCrystal_I2C
+cp -r LiquidCrystal_I2C/* /usr/share/arduino/hardware/arduino/avr/libraries/LiquidCrystal_I2C
+
 ```
 ### pour le esp (Mega est un preréquis)
 Installation pip si pas encore installé
