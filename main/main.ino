@@ -1,8 +1,11 @@
 #include "EspConnection.h"
 #include "RFIDReader.h"
+#include "LcdDisplayer.h"
+
 
 RFIDReader rfidReader;
 EspConnection espConnection;
+LcdDisplayer lcdDisplayer;
 
 #define MAX_UID_SIZE 10    // UID ne fera jamais plus que 10 bytes
 
@@ -10,32 +13,43 @@ void setup() {
 
     delay(5000);
 
-    Serial.begin(9600);		// Initialize serial communications with the PC
-    while (!Serial);		// Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
+    Serial.begin(9600);		// Init du serial
+    while (!Serial);		// Attends que le serial soit lu
 
-    // Setup des différents modules
+//    // Setup des différents modules
     rfidReader.setup();
-    espConnection.setup();
+//    espConnection.setup();
+    lcdDisplayer.setup();
+    lcdDisplayer.displayString("Scan a card...");
+
 }
 
 void loop() {
 
-    // Exemple RFID
+    // Exemple RFID & Affichage écran
 
     byte uId[MAX_UID_SIZE];
 
     if (rfidReader.read()) {
 
-        rfidReader.printUid();
+        // rfidReader.printUid();
         size_t size = rfidReader.getUIdBytes(uId);
 
-        Serial.print("Return Uid = ");
+//        Serial.print("Return Uid = ");
+//        for (size_t i = 0; i < size; i++) {
+//            Serial.print(uId[i], HEX);
+//        }
+        lcdDisplayer.clearDisplay();
+        lcdDisplayer.setCursor(0, 0);
+        lcdDisplayer.displayString("New card !");
+
+        // Nouvelle ligne
+        lcdDisplayer.setCursor(1, 0);
+        lcdDisplayer.displayString("No: ");
+
         for (size_t i = 0; i < size; i++) {
-            Serial.print(uId[i], HEX);
+            lcdDisplayer.displayByte(uId[i]);
         }
-
-        Serial.println("");
-
     }
 
     // Exemple ESP
