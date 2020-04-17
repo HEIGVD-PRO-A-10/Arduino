@@ -28,6 +28,13 @@ git clone git@github.com:johnrickman/LiquidCrystal_I2C.git
 sudo mkdir /usr/share/arduino/hardware/arduino/avr/libraries/LiquidCrystal_I2C
 cp -r LiquidCrystal_I2C/* /usr/share/arduino/hardware/arduino/avr/libraries/LiquidCrystal_I2C
 
+
+## Pour installes les lib pour le petit écran:
+git clone git@github.com:adafruit/Adafruit_SSD1306.git
+sudo mv Adafruit_SSD1306/ /usr/share/arduino/hardware/arduino/avr/libraries/
+git clone git@github.com:adafruit/Adafruit-GFX-Library.git
+sudo mv Adafruit-GFX-Library/ /usr/share/arduino/hardware/arduino/avr/libraries/Adafruit_GFX
+
 ```
 ### pour le esp (Mega est un preréquis)
 Installation pip si pas encore installé
