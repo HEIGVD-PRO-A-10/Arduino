@@ -1,11 +1,12 @@
 #include "EspConnection.h"
 #include "RFIDReader.h"
 #include "LcdDisplayer.h"
-#include "numpadController.h"
+#include "NumpadController.h"
 
 RFIDReader rfidReader;
 EspConnection espConnection;
 LcdDisplayer lcdDisplayer;
+NumpadController nmpController;
 
 #define MAX_UID_SIZE 10    // UID ne fera jamais plus que 10 bytes
 
@@ -21,6 +22,7 @@ void setup() {
 //    // Setup des différents modules
     rfidReader.setup();
 //    espConnection.setup();
+    nmpController.setup();
     lcdDisplayer.setup();
     lcdDisplayer.displayString("Scan a card...");
 
@@ -65,7 +67,6 @@ void loop() {
 
 
 //TEST MSS
-numpadController nmpController;
 void testNumPadMSS(){
     nmpController.mss();
     if(nmpController.readDone()){

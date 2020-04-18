@@ -94,10 +94,11 @@ private:
     bool rowIsOff();
 
     unsigned int zx;
-
+    unsigned int filter_i;
     bool isReading;
     unsigned char lastButtonRead;
     unsigned char valueMapping[4][4] = {BTN_VAL_ON_LINE_1, BTN_VAL_ON_LINE_2, BTN_VAL_ON_LINE_3, BTN_VAL_ON_LINE_4};
+
 };
 
 

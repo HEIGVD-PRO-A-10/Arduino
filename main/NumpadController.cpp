@@ -14,10 +14,10 @@
 #define ROW_3_PIN 32
 #define ROW_4_PIN 33
 
+#define FILTER_INPUT_MAX 50
 
 
-
-NumpadController::NumpadController() : zx(0),  isReading(false), lastButtonRead(NULL_BTN_VAL) {
+NumpadController::NumpadController() : zx(0),  isReading(false), lastButtonRead(NULL_BTN_VAL), filter_i(0) {
 
 }
 
@@ -50,6 +50,7 @@ void NumpadController::mss() {
         case 2:
             digitalWrite(ROW_1_PIN, HIGH);
             zx = 4; //TODO is delay needed?
+            filter_i = 0;
             break;
         case 4: // ROW 1 activated
             readColumns(valueMapping[0], 5, 6);
@@ -66,6 +67,7 @@ void NumpadController::mss() {
         case 6:
             digitalWrite(ROW_1_PIN, LOW);
             digitalWrite(ROW_2_PIN, HIGH);
+            filter_i = 0;
             zx = 8;
             break;
         case 8:
@@ -83,6 +85,7 @@ void NumpadController::mss() {
         case 10:
             digitalWrite(ROW_2_PIN, LOW);
             digitalWrite(ROW_3_PIN, HIGH);
+            filter_i = 0;
             zx = 12;
             break;
         case 12:
@@ -101,6 +104,7 @@ void NumpadController::mss() {
         case 14:
             digitalWrite(ROW_3_PIN, LOW);
             digitalWrite(ROW_4_PIN, HIGH);
+            filter_i = 0;
             zx = 16;
             break;
         case 16:
@@ -150,19 +154,21 @@ void NumpadController::readColumns(unsigned char btnValues[], unsigned int zxToG
     bool c3 = digitalRead(COLUMN_3_PIN);
     bool c4 = digitalRead(COLUMN_4_PIN);
 
-    if(c1){
+    if(c1 && filter_i == FILTER_INPUT_MAX){
         lastButtonRead = btnValues[0];
         zx = zxToGoIfPressed;
-    }else if(c2){
+    }else if(c2 && filter_i == FILTER_INPUT_MAX){
         lastButtonRead = btnValues[1];
         zx = zxToGoIfPressed;
-    }else if(c3){
+    }else if(c3 && filter_i == FILTER_INPUT_MAX){
         lastButtonRead = btnValues[2];
         zx = zxToGoIfPressed;
-    }else if(c4){
+    }else if(c4 && filter_i == FILTER_INPUT_MAX){
         lastButtonRead = btnValues[3];
         zx = zxToGoIfPressed;
+    }else if (!c1 && !c2 && !c3 && !c4){
+        zx = zxToGoIfNotPressed; // No button pressed
     }else{
-        zx = zxToGoIfNotPressed;
+        filter_i++;
     }
 }
