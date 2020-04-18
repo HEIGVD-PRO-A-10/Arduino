@@ -31,6 +31,8 @@
 
 
 /**
+ * NumPad Controller Class.
+ *
  * Button identifier map:
  * 0x1 0x2 0x3 0xA
  * 0x4 0x5 0x6 0xB
@@ -39,10 +41,10 @@
  *
  * No button pushed: 0xFF
  */
-class numpadController {
+class NumpadController {
 public:
 
-    numpadController();
+    NumpadController();
 
     /**
      * setup function for pin initializing

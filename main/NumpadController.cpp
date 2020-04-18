@@ -2,7 +2,7 @@
 // Created by deni on 18/04/2020.
 //
 
-#include "numpadController.h"
+#include "NumpadController.h"
 #include <Arduino.h>
 
 #define COLUMN_1_PIN 34
@@ -17,11 +17,11 @@
 
 
 
-numpadController::numpadController() : zx(0),  isReading(false), lastButtonRead(NULL_BTN_VAL) {
+NumpadController::NumpadController() : zx(0),  isReading(false), lastButtonRead(NULL_BTN_VAL) {
 
 }
 
-void numpadController::setup() {
+void NumpadController::setup() {
     //Rows are Output
     pinMode(ROW_1_PIN, OUTPUT);
     pinMode(ROW_2_PIN, OUTPUT);
@@ -36,7 +36,7 @@ void numpadController::setup() {
 
 }
 
-void numpadController::mss() {
+void NumpadController::mss() {
     switch (zx){
         case 0:
             //wait on user to call read()
@@ -46,7 +46,7 @@ void numpadController::mss() {
             digitalWrite(ROW_4_PIN, LOW);
             break;
 
-        // Row 1
+            // Row 1
         case 2:
             digitalWrite(ROW_1_PIN, HIGH);
             zx = 4; //TODO is delay needed?
@@ -62,7 +62,7 @@ void numpadController::mss() {
             }
             break;
 
-        // Row 2
+            // Row 2
         case 6:
             digitalWrite(ROW_1_PIN, LOW);
             digitalWrite(ROW_2_PIN, HIGH);
@@ -79,7 +79,7 @@ void numpadController::mss() {
             }
             break;
 
-        // Row 3
+            // Row 3
         case 10:
             digitalWrite(ROW_2_PIN, LOW);
             digitalWrite(ROW_3_PIN, HIGH);
@@ -97,7 +97,7 @@ void numpadController::mss() {
             break;
 
 
-        // Row 4
+            // Row 4
         case 14:
             digitalWrite(ROW_3_PIN, LOW);
             digitalWrite(ROW_4_PIN, HIGH);
@@ -116,24 +116,24 @@ void numpadController::mss() {
     }
 }
 
-void numpadController::abortRead() {
+void NumpadController::abortRead() {
     zx = 0;
 }
 
-bool numpadController::readDone() {
+bool NumpadController::readDone() {
     return !isReading;
 }
 
-unsigned char numpadController::value() {
+unsigned char NumpadController::value() {
     return lastButtonRead;
 }
 
-void numpadController::read() {
+void NumpadController::read() {
     zx = 2;
     isReading = true;
 }
 
-bool numpadController::rowIsOff(){
+bool NumpadController::rowIsOff(){
     bool c1 = digitalRead(COLUMN_1_PIN);
     bool c2 = digitalRead(COLUMN_2_PIN);
     bool c3 = digitalRead(COLUMN_3_PIN);
@@ -144,7 +144,7 @@ bool numpadController::rowIsOff(){
     return false;
 }
 
-void numpadController::readColumns(unsigned char btnValues[], unsigned int zxToGoIfPressed, unsigned int zxToGoIfNotPressed){
+void NumpadController::readColumns(unsigned char btnValues[], unsigned int zxToGoIfPressed, unsigned int zxToGoIfNotPressed){
     bool c1 = digitalRead(COLUMN_1_PIN);
     bool c2 = digitalRead(COLUMN_2_PIN);
     bool c3 = digitalRead(COLUMN_3_PIN);
