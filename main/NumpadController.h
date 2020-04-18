@@ -1,6 +1,23 @@
-//
-// Created by deni on 18/04/2020.
-//
+/**
+ * Used as Numpad controller.
+ *
+ * 1) Always call setup() method before anything else
+ * 2) Call mss method in each cycle
+ *
+ * Exemple d'utilisation
+ *
+    NumpadController nmpController;
+    nmpController.setup();
+    nmpController.mss();
+
+    if (nmpController.readDone()) {
+
+        Serial.print("Numpad Value: ");
+        Serial.println((int)nmpController.value());
+        nmpController.read();
+    }
+
+ */
 
 #ifndef TERMINAL_NUMPADCONTROLLER_H
 #define TERMINAL_NUMPADCONTROLLER_H
@@ -85,7 +102,9 @@ private:
      * @param zxToGoIfFound. next zx if a button is pressed
      * @param zxToGoIfNotFound. next zx if no button is pressed
      */
-    void readColumns(unsigned char btnValues[], unsigned int zxToGoIfPressed, unsigned int zxToGoIfNotPressed);
+    void readColumns(unsigned char btnValues[],
+                     unsigned int zxToGoIfPressed,
+                     unsigned int zxToGoIfNotPressed);
 
     /**
      *
@@ -98,7 +117,10 @@ private:
     unsigned int powerOnTime_i;
     bool isReading;
     unsigned char lastButtonRead;
-    unsigned char valueMapping[4][4] = {BTN_VAL_ON_LINE_1, BTN_VAL_ON_LINE_2, BTN_VAL_ON_LINE_3, BTN_VAL_ON_LINE_4};
+    unsigned char valueMapping[4][4] = {BTN_VAL_ON_LINE_1,
+                                        BTN_VAL_ON_LINE_2,
+                                        BTN_VAL_ON_LINE_3,
+                                        BTN_VAL_ON_LINE_4};
 
 };
 

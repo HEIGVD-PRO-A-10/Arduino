@@ -31,7 +31,7 @@ void setup() {
 void loop() {
 
     // Exemple RFID & Affichage écran
-/*
+
     byte uId[MAX_UID_SIZE];
 
     if (rfidReader.read()) {
@@ -62,7 +62,7 @@ void loop() {
     //String jsonAnswer = espConnection.readAnswerFromEsp();
     //Serial.println(jsonAnswer);
     //delay(1000);
-    */
+
     testNumPadMSS();
 }
 
@@ -75,7 +75,7 @@ void testNumPadMSS() {
     if (nmpController.readDone()) {
 
         Serial.print("Numpad Value: ");
-        Serial.println(nmpController.value());
+        Serial.println((int)nmpController.value());
         nmpController.read();
     }
 }
