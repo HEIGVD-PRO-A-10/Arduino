@@ -1,0 +1,168 @@
+//
+// Created by deni on 18/04/2020.
+//
+
+#include "numpadController.h"
+#include <Arduino.h>
+
+#define COLUMN_1_PIN 34
+#define COLUMN_2_PIN 35
+#define COLUMN_3_PIN 36
+#define COLUMN_4_PIN 37
+#define ROW_1_PIN 30
+#define ROW_2_PIN 31
+#define ROW_3_PIN 32
+#define ROW_4_PIN 33
+
+
+
+
+numpadController::numpadController() : zx(0),  isReading(false), lastButtonRead(NULL_BTN_VAL) {
+
+}
+
+void numpadController::setup() {
+    //Rows are Output
+    pinMode(ROW_1_PIN, OUTPUT);
+    pinMode(ROW_2_PIN, OUTPUT);
+    pinMode(ROW_3_PIN, OUTPUT);
+    pinMode(ROW_4_PIN, OUTPUT);
+
+    //Columns are Input
+    pinMode(COLUMN_1_PIN, INPUT);
+    pinMode(COLUMN_2_PIN, INPUT);
+    pinMode(COLUMN_3_PIN, INPUT);
+    pinMode(COLUMN_4_PIN, INPUT);
+
+}
+
+void numpadController::mss() {
+    switch (zx){
+        case 0:
+            //wait on user to call read()
+            digitalWrite(ROW_1_PIN, LOW);
+            digitalWrite(ROW_2_PIN, LOW);
+            digitalWrite(ROW_3_PIN, LOW);
+            digitalWrite(ROW_4_PIN, LOW);
+            break;
+
+        // Row 1
+        case 2:
+            digitalWrite(ROW_1_PIN, HIGH);
+            zx = 4; //TODO is delay needed?
+            break;
+        case 4: // ROW 1 activated
+            readColumns(valueMapping[0], 5, 6);
+            break;
+        case 5:
+            if(rowIsOff()){ // button is released
+                digitalWrite(ROW_1_PIN, LOW);
+                zx = 0;
+                isReading = false; // ending the reading
+            }
+            break;
+
+        // Row 2
+        case 6:
+            digitalWrite(ROW_1_PIN, LOW);
+            digitalWrite(ROW_2_PIN, HIGH);
+            zx = 8;
+            break;
+        case 8:
+            readColumns(valueMapping[1], 9, 10);
+            break;
+        case 9:
+            if(rowIsOff()){ // button is released
+                digitalWrite(ROW_2_PIN, LOW);
+                zx = 0;
+                isReading = false; // ending the reading
+            }
+            break;
+
+        // Row 3
+        case 10:
+            digitalWrite(ROW_2_PIN, LOW);
+            digitalWrite(ROW_3_PIN, HIGH);
+            zx = 12;
+            break;
+        case 12:
+            readColumns(valueMapping[2], 13, 14);
+            break;
+        case 13:
+            if(rowIsOff()){ // button is released
+                digitalWrite(ROW_3_PIN, LOW);
+                zx = 0;
+                isReading = false; // ending the reading
+            }
+            break;
+
+
+        // Row 4
+        case 14:
+            digitalWrite(ROW_3_PIN, LOW);
+            digitalWrite(ROW_4_PIN, HIGH);
+            zx = 16;
+            break;
+        case 16:
+            readColumns(valueMapping[3], 16, 2);
+            break;
+        case 17:
+            if(rowIsOff()){ // button is released
+                digitalWrite(ROW_4_PIN, LOW);
+                zx = 0;
+                isReading = false; // ending the reading
+            }
+            break;
+    }
+}
+
+void numpadController::abortRead() {
+    zx = 0;
+}
+
+bool numpadController::readDone() {
+    return !isReading;
+}
+
+unsigned char numpadController::value() {
+    return lastButtonRead;
+}
+
+void numpadController::read() {
+    zx = 2;
+    isReading = true;
+}
+
+bool numpadController::rowIsOff(){
+    bool c1 = digitalRead(COLUMN_1_PIN);
+    bool c2 = digitalRead(COLUMN_2_PIN);
+    bool c3 = digitalRead(COLUMN_3_PIN);
+    bool c4 = digitalRead(COLUMN_4_PIN);
+    if(!c1 && !c2 && !c3 && !c4){
+        return true;
+    }
+    return false;
+}
+
+void numpadController::readColumns(unsigned char btnValues[], unsigned int zxToGoIfPressed, unsigned int zxToGoIfNotPressed){
+    bool c1 = digitalRead(COLUMN_1_PIN);
+    bool c2 = digitalRead(COLUMN_2_PIN);
+    bool c3 = digitalRead(COLUMN_3_PIN);
+    bool c4 = digitalRead(COLUMN_4_PIN);
+
+    if(c1){
+        lastButtonRead = btnValues[0];
+        zx = zxToGoIfPressed;
+    }else if(c2){
+        lastButtonRead = btnValues[1];
+        zx = zxToGoIfPressed;
+    }else if(c3){
+        lastButtonRead = btnValues[2];
+        zx = zxToGoIfPressed;
+    }else if(c4){
+        lastButtonRead = btnValues[3];
+        zx = zxToGoIfPressed;
+    }else{
+        zx = zxToGoIfNotPressed;
+    }
+}

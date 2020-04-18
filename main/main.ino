@@ -1,13 +1,15 @@
 #include "EspConnection.h"
 #include "RFIDReader.h"
 #include "LcdDisplayer.h"
-
+#include "numpadController.h"
 
 RFIDReader rfidReader;
 EspConnection espConnection;
 LcdDisplayer lcdDisplayer;
 
 #define MAX_UID_SIZE 10    // UID ne fera jamais plus que 10 bytes
+
+void testNumPadMSS();
 
 void setup() {
 
@@ -58,4 +60,17 @@ void loop() {
     //String jsonAnswer = espConnection.readAnswerFromEsp();
     //Serial.println(jsonAnswer);
     //delay(1000);
+    testNumPadMSS();
+}
+
+
+//TEST MSS
+numpadController nmpController;
+void testNumPadMSS(){
+    nmpController.mss();
+    if(nmpController.readDone()){
+        Serial.print("Numpad Value: ");
+        Serial.println(nmpController.value());
+        nmpController.read();
+    }
 }
