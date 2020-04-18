@@ -1,7 +1,7 @@
 #include "EspConnection.h"
 #include "RFIDReader.h"
 #include "LcdDisplayer.h"
-#include "numpadController.h"
+#include "NumpadController.h"
 
 RFIDReader rfidReader;
 EspConnection espConnection;
@@ -29,7 +29,7 @@ void setup() {
 void loop() {
 
     // Exemple RFID & Affichage écran
-
+/*
     byte uId[MAX_UID_SIZE];
 
     if (rfidReader.read()) {
@@ -60,15 +60,20 @@ void loop() {
     //String jsonAnswer = espConnection.readAnswerFromEsp();
     //Serial.println(jsonAnswer);
     //delay(1000);
+    */
     testNumPadMSS();
 }
 
 
 //TEST MSS
-numpadController nmpController;
-void testNumPadMSS(){
+NumpadController nmpController;
+
+void testNumPadMSS() {
+
     nmpController.mss();
-    if(nmpController.readDone()){
+
+    if (nmpController.readDone()) {
+
         Serial.print("Numpad Value: ");
         Serial.println(nmpController.value());
         nmpController.read();
