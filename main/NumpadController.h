@@ -7,20 +7,20 @@
 
 #define BTN_0_VAL 0x0
 #define BTN_1_VAL 0x1
-#define BTN_2_VAL 0x0
-#define BTN_3_VAL 0x1
-#define BTN_4_VAL 0x0
-#define BTN_5_VAL 0x1
-#define BTN_6_VAL 0x0
-#define BTN_7_VAL 0x1
-#define BTN_8_VAL 0x0
-#define BTN_9_VAL 0x1
-#define BTN_A_VAL 0x1
-#define BTN_B_VAL 0x0
-#define BTN_C_VAL 0x1
-#define BTN_D_VAL 0x1
-#define BTN_STAR_VAL 0x0
-#define BTN_HASHTAG_VAL 0x1
+#define BTN_2_VAL 0x2
+#define BTN_3_VAL 0x3
+#define BTN_4_VAL 0x4
+#define BTN_5_VAL 0x5
+#define BTN_6_VAL 0x6
+#define BTN_7_VAL 0x7
+#define BTN_8_VAL 0x8
+#define BTN_9_VAL 0x9
+#define BTN_A_VAL 0xA
+#define BTN_B_VAL 0xB
+#define BTN_C_VAL 0xC
+#define BTN_D_VAL 0xD
+#define BTN_STAR_VAL 0xE
+#define BTN_HASHTAG_VAL 0xF
 
 #define NULL_BTN_VAL 0xFF
 
@@ -95,6 +95,7 @@ private:
 
     unsigned int zx;
     unsigned int filter_i;
+    unsigned int powerOnTime_i;
     bool isReading;
     unsigned char lastButtonRead;
     unsigned char valueMapping[4][4] = {BTN_VAL_ON_LINE_1, BTN_VAL_ON_LINE_2, BTN_VAL_ON_LINE_3, BTN_VAL_ON_LINE_4};

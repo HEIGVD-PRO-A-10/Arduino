@@ -15,7 +15,7 @@
 #define ROW_4_PIN 33
 
 #define FILTER_INPUT_MAX 50
-
+#define POWERON_WAITTIME_MAX 50
 
 NumpadController::NumpadController() : zx(0),  isReading(false), lastButtonRead(NULL_BTN_VAL), filter_i(0) {
 
@@ -54,8 +54,14 @@ void NumpadController::mss() {
             // Row 1
         case 2:
             digitalWrite(ROW_1_PIN, HIGH);
-            zx = 4; //TODO is delay needed?
-            filter_i = 0;
+            //if(powerOnTime_i == POWERON_WAITTIME_MAX){
+                zx = 4;
+                filter_i = 0;
+           //     powerOnTime_i=0;
+           // }else{
+            //    powerOnTime_i++;
+            //}
+
             break;
         case 4: // ROW 1 activated
             readColumns(valueMapping[0], 5, 6);
