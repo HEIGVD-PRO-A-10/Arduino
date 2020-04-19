@@ -160,7 +160,7 @@ bool NumpadController::readDone() {
     return !isReading;
 }
 
-unsigned char NumpadController::value() {
+byte NumpadController::value() {
 
     return lastButtonRead;
 }
@@ -184,7 +184,7 @@ bool NumpadController::rowIsOff() {
     return false;
 }
 
-void NumpadController::readColumns(unsigned char btnValues[],
+void NumpadController::readColumns(byte btnValues[],
                                    unsigned int zxToGoIfPressed,
                                    unsigned int zxToGoIfNotPressed) {
 

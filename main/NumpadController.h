@@ -46,7 +46,7 @@
 #define BTN_VAL_ON_LINE_3 {BTN_7_VAL, BTN_8_VAL,  BTN_9_VAL, BTN_C_VAL}
 #define BTN_VAL_ON_LINE_4 {BTN_STAR_VAL, BTN_0_VAL,  BTN_HASHTAG_VAL, BTN_D_VAL}
 
-
+#include <Arduino.h>
 /**
  * NumPad Controller Class.
  *
@@ -93,7 +93,7 @@ public:
      * get the last pushed button
      * @return button id of last pushed button
      */
-    unsigned char value();
+    byte value();
 
 private:
     /**
@@ -102,7 +102,7 @@ private:
      * @param zxToGoIfFound. next zx if a button is pressed
      * @param zxToGoIfNotFound. next zx if no button is pressed
      */
-    void readColumns(unsigned char btnValues[],
+    void readColumns(byte btnValues[],
                      unsigned int zxToGoIfPressed,
                      unsigned int zxToGoIfNotPressed);
 
@@ -116,8 +116,8 @@ private:
     unsigned int filter_i;
     unsigned int powerOnTime_i;
     bool isReading;
-    unsigned char lastButtonRead;
-    unsigned char valueMapping[4][4] = {BTN_VAL_ON_LINE_1,
+    byte lastButtonRead;
+    byte valueMapping[4][4] = {BTN_VAL_ON_LINE_1,
                                         BTN_VAL_ON_LINE_2,
                                         BTN_VAL_ON_LINE_3,
                                         BTN_VAL_ON_LINE_4};
