@@ -6,8 +6,6 @@
  *
  */
 
-// TODO Controller erreur, longeur du uid doit pas dépasser la constante
-
 #include <Arduino.h>
 
 #include "MainController.h"
