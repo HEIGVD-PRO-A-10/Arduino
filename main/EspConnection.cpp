@@ -5,8 +5,11 @@
 #include "EspConnection.h"
 #include <Arduino.h>
 
+int EspConnection::hasAnswer() {
+    return Serial2.available();
+}
+
 String EspConnection::readAnswerFromEsp(){
-    while(Serial2.available() <= 0);
     String answer = Serial2.readString();
     return answer;
 }

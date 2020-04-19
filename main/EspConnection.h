@@ -11,6 +11,7 @@ public:
     void setup();
     void sendCmdToEsp(unsigned char cmd);
     String readAnswerFromEsp();
+    int hasAnswer();
 };
 
 
