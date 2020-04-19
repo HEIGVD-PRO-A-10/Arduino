@@ -19,6 +19,7 @@ bool EspConnection::hasAnswer() {
 }
 
 String EspConnection::readAnswerFromEsp(){
+    bufferPointer = 0;
     return String(rxBuffer);
 }
 
