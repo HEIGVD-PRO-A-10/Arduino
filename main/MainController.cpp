@@ -1,9 +1,12 @@
-//
-// Created by nico on 19.04.20.
-//
+/**
+ * Main controller
+ *
+ * Always call setup() method before usage
+ * Call mss() in every loop
+ *
+ */
 
 // TODO Controller erreur, longeur du uid doit pas dépasser la constante
-//      == Marche pas
 
 #include <Arduino.h>
 
@@ -47,7 +50,7 @@ void MainController::mss() {
 
             String answer = espConnection.readAnswerFromEsp();
 
-            if (answer == ESP32_INIT_CODE_OK) {
+            if (answer.equals(ESP32_INIT_CODE_OK)) {
 
                 zx = 10;
                 lcdDisplayer.displayString("Scan admin card...");
@@ -65,6 +68,14 @@ void MainController::mss() {
         if (rfidReader.read()) {
 
             uIdSize = rfidReader.getUIdBytes(uId);
+
+            if (uIdSize != RFID_UID_SIZE) {
+
+                lcdDisplayer.clearDisplay();
+                lcdDisplayer.displayString("Invalid UID...");
+                return;
+            }
+
             pinLengthCounter = 0;
 
             lcdDisplayer.clearDisplay();
@@ -142,11 +153,11 @@ void MainController::mss() {
 
             String answer = espConnection.readAnswerFromEsp();
 
-            if (ESP32_AUTH_CODE_OK == answer) {
+            if (answer.equals(ESP32_AUTH_CODE_OK)) {
 
                 zx = 60;
             }
-            else if (ESP32_AUTH_CODE_FAIL == answer) {
+            else if (answer.equals(ESP32_AUTH_CODE_FAIL)) {
 
                 zx = 10;
             }
