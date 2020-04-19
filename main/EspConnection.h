@@ -11,7 +11,11 @@ public:
     void setup();
     void sendCmdToEsp(unsigned char cmd);
     String readAnswerFromEsp();
-    int hasAnswer();
+    bool hasAnswer();
+
+private:
+    char rxBuffer[256];
+    unsigned int bufferPointer; // post increment
 };
 
 
