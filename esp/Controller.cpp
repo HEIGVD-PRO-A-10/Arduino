@@ -5,6 +5,8 @@
 #include "Controller.h"
 #include "Base.h"
 #include "JSONanswer.h"
+#include "../config/config.h"
+
 #include <Arduino.h>
 
 Controller::Controller() : rxBuffer_index(0), zx(0) {}
@@ -14,9 +16,9 @@ void Controller::setup() {
     bool wifiStatus = wiFiCommunication.connect();
 
     if(wifiStatus){
-        writeOnSerial("{code:100}");
+        writeOnSerial(ESP32_INIT_CODE_OK);
     }else{
-        writeOnSerial("{code:999}");
+        writeOnSerial(ESP32_INIT_CODE_FAIL);
         // Stop here if wifi is not working
         while(1);
     }
