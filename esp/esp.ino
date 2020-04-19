@@ -40,6 +40,8 @@ void loop(void){
 
     //invoke main controller
     controller.process(buffer, nbBytes);
+
+    free(buffer);
 }
 
 void writeOnSerial(char *bytes, unsigned int nbBytes){
