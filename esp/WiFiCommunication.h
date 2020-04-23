@@ -8,20 +8,21 @@
 
 #include "HTTPAnswer.h"
 #include <Arduino.h>
+#include <ArduinoJson.h>
 
 class WiFiCommunication {
 public:
     bool connect();
     bool isConnected();
-    HTTPAnswer test();
-    HTTPAnswer authenticate(String uid, String password);
+    byte authenticate(String uid, String password);
 
 private:
     const char* SSID = "nico";
     const char* PASSWORD = "ff69866b3900";
     const int CONNECT_TIMEOUT = 60; // In seconds
+    StaticJsonDocument<512> jsonObject;
     bool connected = false;
-    String token;
+    const char* token;
     const char* ROOT_CA = "-----BEGIN CERTIFICATE-----\n"
                           "MIIDSjCCAjKgAwIBAgIQRK+wgNajJ7qJMDmGLvhAazANBgkqhkiG9w0BAQUFADA/\n"
                           "MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT\n"

@@ -9,7 +9,7 @@
 class EspConnection {
 public:
     void setup();
-    void sendCmdToEsp(unsigned char cmd);
+    void sendCmdToEsp(byte cmd);
     byte readAnswerFromEsp();
     bool hasAnswer();
 

@@ -9,7 +9,7 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Arduino.h>
-
+#include "../config/config.h"
 
 bool WiFiCommunication::connect() {
 
@@ -32,28 +32,32 @@ bool WiFiCommunication::isConnected() {
     return this->isConnected();
 }
 
-HTTPAnswer WiFiCommunication::test() {
-    HTTPClient http;
-    http.begin("https://enqidtc71xg9g.x.pipedream.net/", this->ROOT_CA);
-    http.addHeader("api_token",  "yooowhatuppp");
-    int htCode = http.GET();
-    HTTPAnswer httpAnswer(htCode, http.getString());
-    http.end();
-    return httpAnswer;
-}
 
-HTTPAnswer WiFiCommunication::authenticate(String uid, String password){
+byte WiFiCommunication::authenticate(String uid, String password){
     Serial.println("Entering func");
     HTTPClient http;
     http.begin("https://paybeer.artefactori.ch/api/login", this->ROOT_CA);
     http.addHeader("accept","application/json");
     http.addHeader("Content-Type", " application/x-www-form-urlencoded");
     int htCode = http.POST("tag_rfid=123456&pin_number=1241");
+    String response = http.getString();
+#ifndef nDebug
     Serial.print("Answer = ");
-    Serial.println(http.getString());
-    //HTTPAnswer httpAnswer(htCode, http.getString());
+    Serial.println(response);
+
     Serial.println("Before http end");
-    //http.end();
     Serial.println("Finished func");
-    return HTTPAnswer(1, "hello");
+#endif
+
+    if(htCode == 200){
+        DeserializationError error = deserializeJson(jsonObject, response);
+        if(error) return SERIALCODE_UNKOWN_ERROR;
+        token = jsonObject["token"];
+    }else if(htCode == 400){
+        return SERIALCODE_LOGIN_WRONG_PARAM;
+    }else if(htCode == 401){
+        return SERIALCODE_LOGIN_WRONG_LOGIN;
+    }else{
+        return SERIALCODE_UNKOWN_ERROR;
+    }
 }

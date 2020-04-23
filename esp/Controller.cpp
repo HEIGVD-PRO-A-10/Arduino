@@ -4,7 +4,6 @@
 
 #include "Controller.h"
 #include "Base.h"
-#include "JSONanswer.h"
 #include "../config/config.h"
 
 #include <Arduino.h>
@@ -16,9 +15,9 @@ void Controller::setup() {
     bool wifiStatus = wiFiCommunication.connect();
 
     if(wifiStatus){
-        writeOnSerial(ESP32_INIT_CODE_OK);
+        Serial.write(SERIALCODE_WIFI_OK);
     }else{
-        writeOnSerial(ESP32_INIT_CODE_FAIL);
+        Serial.write(SERIALCODE_NO_WIFI);
         // Stop here if wifi is not working
         while(1);
     }
@@ -35,7 +34,7 @@ unsigned int Controller::getRxBufferSize(){
  * @param rxBytes Bytes read on the incoming serial line from the Arduino mega
  * @param nbIncomingBytes number of bytes read.
  */
-void Controller::process(unsigned char rxBytes[], int nbIncomingBytes) {
+void Controller::process(byte rxBytes[], int nbIncomingBytes) {
     // Copy bytes to rxBuffer
     for(int i = 0; i < nbIncomingBytes && i < BUFFER_SIZE; ++i){
         rxBuffer[++rxBuffer_index] = rxBytes[i];
@@ -45,26 +44,29 @@ void Controller::process(unsigned char rxBytes[], int nbIncomingBytes) {
     switch (zx){
         case 0: // standby
             if(rxBytes != 0){
-                if(rxBuffer[0] == ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION) zx = 100; // new Payment
+                if(rxBuffer[0] == SERIALCOMMAND_BARMAN_AUTHENTICATION)
+                    zx = 100; // new Payment
+                else if(rxBuffer[0] == SERIALCOMMAND_PAYMENT) zx = 0; //TODO
+                else if(rxBuffer[0] == SERIALCOMMAND_NEW_CARD) zx = 0; //TODO
+                else if(rxBuffer[0] == SERIALCOMMAND_RECHARGE) zx = 0; //TODO
             }
             break;
 
         case 100: // new Payment: wait on full command
-            if(rxBuffer_index <= 5) zx = 102;
+            if(rxBuffer_index <= 9) zx = 102;
             break;
 
        case 102: // new Payment: invoke payment function
-            writeOnSerial(httpAnswerToJson(ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION, wiFiCommunication.test()));
-             //TODO invoke correct function. this is just a test
+            byte result;
+            result = wiFiCommunication.authenticate((const char*)(rxBuffer + 1), (const char*)(rxBuffer + 5));
+            Serial.write(result);
             zx = 500;
             break;
 
-        case 500:
-        rxBuffer_index = 0;
-        zx = 0;
-        break;
-
-
+       case 500:
+            rxBuffer_index = 0;
+            zx = 0;
+       break;
     }
 }
 
@@ -72,11 +74,9 @@ void Controller::testPost() {
 
     Serial.print("Sending data...");
 
-    HTTPAnswer answer = wiFiCommunication.authenticate("yoo","juu");
+    byte answer = wiFiCommunication.authenticate("yoo","juu");
 
     delay(1000);
-    Serial.print("Endoffunc");
-    writeOnSerial(httpAnswerToJson(ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION,
-            answer));
-
+    Serial.print(" -> Test Function result: ");
+    Serial.println(answer);
 }

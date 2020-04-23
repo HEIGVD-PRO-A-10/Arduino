@@ -48,22 +48,3 @@ void loop(void){
 */
 }
 
-/**
- * Sending bytes to arduino mega
- * @param bytes data
- * @param nbBytes number of bytes
- */
-void writeOnSerial(char *bytes, unsigned int nbBytes){
-    for(int i = 0; i < nbBytes; ++i){
-        Serial.write(bytes[i]);
-    }
-}
-
-/**
- * sending string to arduino mega
- * @param msg String to send
- */
-void writeOnSerial(String msg){
-    Serial.print(msg);
-}
-

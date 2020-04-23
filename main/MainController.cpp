@@ -46,9 +46,9 @@ void MainController::mss() {
 
         if (espConnection.hasAnswer()) {
 
-            String answer = espConnection.readAnswerFromEsp();
+            byte answer = espConnection.readAnswerFromEsp();
 
-            if (answer.equals(ESP32_INIT_CODE_OK)) {
+            if (answer == SERIALCODE_WIFI_OK) {
 
                 zx = 10;
                 lcdDisplayer.displayString("Scan admin card...");
@@ -130,7 +130,7 @@ void MainController::mss() {
     // Send data to server
     case 40:
 
-        espConnection.sendCmdToEsp(ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION);
+        espConnection.sendCmdToEsp(SERIALCOMMAND_BARMAN_AUTHENTICATION);
 
         // Send uid
         for (size_t i = 0; i < RFID_UID_SIZE; i++) {
@@ -149,13 +149,13 @@ void MainController::mss() {
 
         if (espConnection.hasAnswer()) {
 
-            String answer = espConnection.readAnswerFromEsp();
+            byte answer = espConnection.readAnswerFromEsp();
 
-            if (answer.equals(ESP32_AUTH_CODE_OK)) {
+            if (answer == SERIALCODE_LOGIN_OK) {
 
                 zx = 60;
             }
-            else if (answer.equals(ESP32_AUTH_CODE_FAIL)) {
+            else { // TODO c'est faux de mettre ce if ici non? "if (answer.equals(ESP32_AUTH_CODE_FAIL)) {"
 
                 zx = 10;
             }
@@ -175,7 +175,7 @@ void MainController::mss() {
         lcdDisplayer.clearDisplay();
         lcdDisplayer.displayString("No connection...");
         lcdDisplayer.setCursor(1, 0);
-        lcdDisplayer.displayString("Reset Arduino");
+        lcdDisplayer.displayString("Please Reset Arduino");
         break;
     }
 

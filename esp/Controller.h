@@ -35,7 +35,7 @@ public:
     /**
      * Main process function. Must be called at each loop.
      */
-    void process(unsigned char rxBytes[], int nbIncomingBytes);
+    void process(byte rxBytes[], int nbIncomingBytes);
 
     /**
      * get buffer Size
@@ -48,12 +48,12 @@ private:
     /**
      * RX buffer size
      */
-    const static unsigned int BUFFER_SIZE = 10;
+    const static unsigned int BUFFER_SIZE = 32;
 
     /**
      * Buffer of received bytes
      */
-    unsigned char rxBuffer[BUFFER_SIZE];
+    byte rxBuffer[BUFFER_SIZE];
 
     /**
      * index pointing to the last received byte in buffer.
