@@ -9,10 +9,10 @@
 #define PIN_LENGTH      0x4
 
 // ESP Config
-#define ESP32_INIT_CODE_OK      "{code:100}"
-#define ESP32_INIT_CODE_FAIL    "{code:900}"
-#define ESP32_AUTH_CODE_OK      "{code:110}"
-#define ESP32_AUTH_CODE_FAIL    "{code:910}"
+#define ESP32_INIT_CODE_OK      "{code:100}\n"
+#define ESP32_INIT_CODE_FAIL    "{code:900}\n"
+#define ESP32_AUTH_CODE_OK      "{code:110}\n"
+#define ESP32_AUTH_CODE_FAIL    "{code:910}\n"
 
 #define ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION  0x20
 
