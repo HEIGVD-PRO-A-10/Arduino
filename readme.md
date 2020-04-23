@@ -55,22 +55,6 @@ cd tools
 sudo python3 get.py
 ```
 
-**WifiClientSecure BUG:**
-
-```Bash
-
-Error message :
-In file included from esp.ino:1:0:
-/usr/share/arduino/hardware/espressif/esp32/libraries/HTTPClient/src/HTTPClient.h:35:30: fatal error: WiFiClientSecure.h: No such file or directory
-compilation terminated.
-make: *** [Makefile:277: /tmp/mkESP/esp_esp32/esp_.cpp.o] Error 1
-make: *** Waiting for unfinished jobs....
-In file included from /usr/share/arduino/hardware/espressif/esp32/libraries/HTTPClient/src/HTTPClient.cpp:40:0:
-
-Resolution :
-sudo cp /usr/share/arduino/hardware/espressif/esp32/libraries/WiFiClientSecure/src/* /usr/share/arduino/hardware/espressif/esp32/libraries/WiFi/src
-```
-
 ### Version 2.0
 
 suivre:
@@ -79,12 +63,16 @@ https://github.com/thunderace/Esp8266-Arduino-Makefile#installation-and-test
 
 #### Libs
 
+Librairies you want to use must be added in the Makefile. See example:
+
+```
+    ARDUINO_LIBS=WiFiClientSecure ArduinoJson
+```
+
 ```Bash
   git clone git@github.com:bblanchon/ArduinoJson.git
   sudo mv ArduinoJson/  .../Esp8266-Arduino-Makefile/esp32-1.0.4/libraries/
 ```
-
-
 
 ## Compiler
 

@@ -68,6 +68,13 @@ void Controller::process(unsigned char rxBytes[], int nbIncomingBytes) {
     }
 }
 
-void Controller::testPost(){
-    wiFiCommunication.authenticate("yoo","juu");
+void Controller::testPost() {
+
+    Serial.print("Sending data...");
+
+    HTTPAnswer answer = wiFiCommunication.authenticate("yoo","juu");
+
+    writeOnSerial(httpAnswerToJson(ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION,
+            answer));
+
 }

@@ -24,7 +24,7 @@ void setup(void){
     digitalWrite(2,LOW);
 #endif
 
-   // controller.setup();
+   controller.setup();
 }
 
 /**
