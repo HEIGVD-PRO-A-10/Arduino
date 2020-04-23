@@ -77,6 +77,15 @@ suivre:
 
 https://github.com/thunderace/Esp8266-Arduino-Makefile#installation-and-test
 
+#### Libs
+
+```Bash
+  git clone git@github.com:bblanchon/ArduinoJson.git
+  sudo mv ArduinoJson/  .../Esp8266-Arduino-Makefile/esp32-1.0.4/libraries/
+```
+
+
+
 ## Compiler
 
 ### Mega
