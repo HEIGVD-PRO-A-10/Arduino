@@ -45,7 +45,7 @@ void Controller::process(unsigned char rxBytes[], int nbIncomingBytes) {
     switch (zx){
         case 0: // standby
             if(rxBytes != 0){
-                if(rxBuffer[0] == NEW_PAYMENT) zx = 100; // new Payment
+                if(rxBuffer[0] == ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION) zx = 100; // new Payment
             }
             break;
 
@@ -54,7 +54,7 @@ void Controller::process(unsigned char rxBytes[], int nbIncomingBytes) {
             break;
 
        case 102: // new Payment: invoke payment function
-            writeOnSerial(httpAnswerToJson(NEW_PAYMENT, wiFiCommunication.test()));
+            writeOnSerial(httpAnswerToJson(ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION, wiFiCommunication.test()));
              //TODO invoke correct function. this is just a test
             zx = 500;
             break;
@@ -66,4 +66,8 @@ void Controller::process(unsigned char rxBytes[], int nbIncomingBytes) {
 
 
     }
+}
+
+void Controller::testPost(){
+    wiFiCommunication.authenticate("yoo","juu");
 }

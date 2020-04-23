@@ -7,18 +7,21 @@
 
 
 #include "HTTPAnswer.h"
+#include <Arduino.h>
 
 class WiFiCommunication {
 public:
     bool connect();
     bool isConnected();
     HTTPAnswer test();
+    HTTPAnswer authenticate(String uid, String password);
 
 private:
     const char* SSID = "EEE_2.4Ghz";
     const char* PASSWORD = "rentschforpresident";
     const int CONNECT_TIMEOUT = 10;
     bool connected = false;
+    String token;
     const char* ROOT_CA = "-----BEGIN CERTIFICATE-----\n"
                           "MIIDSjCCAjKgAwIBAgIQRK+wgNajJ7qJMDmGLvhAazANBgkqhkiG9w0BAQUFADA/\n"
                           "MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT\n"

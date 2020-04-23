@@ -7,6 +7,9 @@
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
+#include <ArduinoJson.h>
+#include <Arduino.h>
+
 
 bool WiFiCommunication::connect() {
     WiFi.begin(this->SSID, this->PASSWORD);
@@ -26,9 +29,19 @@ bool WiFiCommunication::isConnected() {
 
 HTTPAnswer WiFiCommunication::test() {
     HTTPClient http;
-    http.begin("https://en68kwqq65f2.x.pipedream.net/", this->ROOT_CA);
+    http.begin("https://entojwjv9t8k.x.pipedream.net", this->ROOT_CA);
     http.addHeader("api_token",  "yooowhatuppp");
     int htCode = http.GET();
+    HTTPAnswer httpAnswer(htCode, http.getString());
+    http.end();
+    return httpAnswer;
+}
+
+HTTPAnswer WiFiCommunication::authenticate(String uid, String password){
+    HTTPClient http;
+    http.begin("https://entojwjv9t8k.x.pipedream.net", this->ROOT_CA);
+    http.addHeader("api_token",  "yooowhatuppp");
+    int htCode = http.POST("Hello World:RQUEST");
     HTTPAnswer httpAnswer(htCode, http.getString());
     http.end();
     return httpAnswer;

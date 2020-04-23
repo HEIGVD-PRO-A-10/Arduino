@@ -42,6 +42,8 @@ public:
      */
     unsigned int getRxBufferSize();
 
+    void testPost();
+
 private:
     /**
      * RX buffer size
@@ -69,10 +71,6 @@ private:
      */
     WiFiCommunication wiFiCommunication;
 
-    /**
-     * commands
-     */
-    const static unsigned char NEW_PAYMENT = 0x10;
 };
 
 

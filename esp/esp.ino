@@ -5,7 +5,7 @@
 #include "Base.h"
 
 //MODE
-#define DEBUG
+//#define nDebug
 
 Controller controller;
 
@@ -16,7 +16,7 @@ Controller controller;
  *      if wifi connection fails after timeout, we're stop in endless loop.
  */
 void setup(void){
-#ifdef DEBUG
+#ifndef nDebug
     pinMode(2,OUTPUT);
 	Serial.begin(9600);
     digitalWrite(2,HIGH);
@@ -24,13 +24,16 @@ void setup(void){
     digitalWrite(2,LOW);
 #endif
 
-    controller.setup();
+   // controller.setup();
 }
 
 /**
  * main loop. looping the entire runtime.
  */
 void loop(void){
+    delay(2000);
+    controller.testPost();
+/*
     int nbBytes = Serial.available();
     unsigned char *buffer = (unsigned char*) malloc(nbBytes);
 
@@ -42,14 +45,24 @@ void loop(void){
     controller.process(buffer, nbBytes);
 
     free(buffer);
+*/
 }
 
+/**
+ * Sending bytes to arduino mega
+ * @param bytes data
+ * @param nbBytes number of bytes
+ */
 void writeOnSerial(char *bytes, unsigned int nbBytes){
     for(int i = 0; i < nbBytes; ++i){
         Serial.write(bytes[i]);
     }
 }
 
+/**
+ * sending string to arduino mega
+ * @param msg String to send
+ */
 void writeOnSerial(String msg){
     Serial.print(msg);
 }
