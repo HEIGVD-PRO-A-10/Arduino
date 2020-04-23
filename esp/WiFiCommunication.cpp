@@ -46,14 +46,14 @@ HTTPAnswer WiFiCommunication::authenticate(String uid, String password){
     Serial.println("Entering func");
     HTTPClient http;
     http.begin("https://paybeer.artefactori.ch/api/login", this->ROOT_CA);
-    http.addHeader("accept:","application/json");
-    http.addHeader("Content-Type:", " application/x-www-form-urlencoded");
-    int htCode = http.POST("tag_rfid=12345&pin_number=1234");
+    http.addHeader("accept","application/json");
+    http.addHeader("Content-Type", " application/x-www-form-urlencoded");
+    int htCode = http.POST("tag_rfid=123456&pin_number=1241");
     Serial.print("Answer = ");
     Serial.println(http.getString());
-    HTTPAnswer httpAnswer(htCode, http.getString());
+    //HTTPAnswer httpAnswer(htCode, http.getString());
     Serial.println("Before http end");
-    http.end();
+    //http.end();
     Serial.println("Finished func");
-    return httpAnswer;
+    return HTTPAnswer(1, "hello");
 }
