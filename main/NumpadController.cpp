@@ -19,9 +19,9 @@
 
 NumpadController::NumpadController() :
                                         zx(0),
+                                        filter_i(0),
                                         isReading(false),
-                                        lastButtonRead(NULL_BTN_VAL),
-                                        filter_i(0)
+                                        lastButtonRead(NULL_BTN_VAL)
                                         { }
 
 void NumpadController::setup() {
