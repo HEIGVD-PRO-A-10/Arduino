@@ -74,6 +74,8 @@ void Controller::testPost() {
 
     HTTPAnswer answer = wiFiCommunication.authenticate("yoo","juu");
 
+    delay(1000);
+    Serial.print("Endoffunc");
     writeOnSerial(httpAnswerToJson(ESP32_COMMAND_CODE_BARMAN_AUTHENTICATION,
             answer));
 
