@@ -17,9 +17,9 @@ public:
     HTTPAnswer authenticate(String uid, String password);
 
 private:
-    const char* SSID = "EEE_2.4Ghz";
-    const char* PASSWORD = "rentschforpresident";
-    const int CONNECT_TIMEOUT = 10;
+    const char* SSID = "nico";
+    const char* PASSWORD = "ff69866b3900";
+    const int CONNECT_TIMEOUT = 60; // In seconds
     bool connected = false;
     String token;
     const char* ROOT_CA = "-----BEGIN CERTIFICATE-----\n"
