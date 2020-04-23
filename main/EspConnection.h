@@ -10,7 +10,7 @@ class EspConnection {
 public:
     void setup();
     void sendCmdToEsp(unsigned char cmd);
-    String readAnswerFromEsp();
+    byte readAnswerFromEsp();
     bool hasAnswer();
 
 private:

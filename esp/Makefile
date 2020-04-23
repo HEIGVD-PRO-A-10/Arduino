@@ -5,12 +5,12 @@ SERIAL_PORT = /dev/ttyUSB0
 # uncomment this to use the 1M SPIFFS mapping
 #SPIFFS_SIZE = 1
 #ESP8266_VERSION=git
-ARDUINO_LIBS=WiFiClientSecure
+ARDUINO_LIBS=WiFiClientSecure ArduinoJson
 ARDUINO_ARCH=esp32
 USER_DEFINE = -D_SSID_=\"YourSSID\" -D_WIFI_PASSWORD_=\"YourPassword\"
 OTA_IP = 192.168.1.184
 OTA_PORT = 8266 
 OTA_AUTH = password
-include /home/deni/ownCloud/heig-vd/ba04/pro/terminal/test/Esp8266-Arduino-Makefile/espXArduino.mk
+include ../arduino/Esp8266-Arduino-Makefile/espXArduino.mk
 
 

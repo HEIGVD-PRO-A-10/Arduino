@@ -3,6 +3,7 @@
 //
 
 #include "HTTPAnswer.h"
+#include <Arduino.h>
 String HTTPAnswer::getPayLoad() {
     return this->payload;
 }

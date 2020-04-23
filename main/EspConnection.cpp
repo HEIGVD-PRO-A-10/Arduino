@@ -6,6 +6,7 @@
 #include <Arduino.h>
 
 bool EspConnection::hasAnswer() {
+    return Serial2.available();
     int bytesToReadCount = Serial2.available();
     bool gotEndOfLine = false;
     if(bytesToReadCount){
@@ -18,17 +19,15 @@ bool EspConnection::hasAnswer() {
     return gotEndOfLine;
 }
 
-String EspConnection::readAnswerFromEsp(){
-    bufferPointer = 0;
-    return String(rxBuffer);
+byte EspConnection::readAnswerFromEsp(){
+    return Serial2.read();
 }
 
 
-void EspConnection::sendCmdToEsp(unsigned char cmd){
+void EspConnection::sendCmdToEsp(byte cmd){
     Serial2.write(cmd);
 }
 
 void EspConnection::setup() {
     Serial2.begin(9600);
-    bufferPointer = 0;
 }
