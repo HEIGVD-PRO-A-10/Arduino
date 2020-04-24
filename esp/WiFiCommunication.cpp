@@ -44,7 +44,14 @@ byte WiFiCommunication::authenticate(String uid, String password) {
     http.addHeader("Content-Type", " application/x-www-form-urlencoded");
 
     int htCode;
-    htCode = http.POST("tag_rfid=319765&pin_number=62377");
+    String payload = "tag_rfid=" + uid + "&pin_number=" + password;
+
+#ifndef nDebug
+    writeOnSerial("Sending = ");
+    writeOnSerial(payload);
+#endif
+
+    htCode = http.POST(payload);
     String response = http.getString();
 
     http.end();

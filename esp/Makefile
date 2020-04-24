@@ -7,10 +7,7 @@ SERIAL_PORT = /dev/ttyUSB0
 #ESP8266_VERSION=git
 ARDUINO_LIBS=WiFiClientSecure ArduinoJson
 ARDUINO_ARCH=esp32
-USER_DEFINE = -D_SSID_=\"YourSSID\" -D_WIFI_PASSWORD_=\"YourPassword\"
-OTA_IP = 192.168.1.184
-OTA_PORT = 8266 
-OTA_AUTH = password
+
 include ../arduino/Esp8266-Arduino-Makefile/espXArduino.mk
 
 

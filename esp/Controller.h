@@ -71,6 +71,9 @@ private:
      */
     WiFiCommunication wiFiCommunication;
 
+    String generateUIDStringFromUID(const char* uid);
+    String generatePINStringFromPIN(const char* pin);
+
 };
 
 

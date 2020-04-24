@@ -12,7 +12,8 @@ Controller controller;
  * - connecting to wifi
  *      if wifi connection fails after timeout, we're stop in endless loop.
  */
-void setup(void){
+void setup(void) {
+
 #ifndef nDebug
     pinMode(2,OUTPUT);
 	Serial.begin(9600);
@@ -28,14 +29,15 @@ void setup(void){
 /**
  * main loop. looping the entire runtime.
  */
-void loop(void){
+void loop(void) {
+
     delay(2000);
     controller.testPost();
 /*
     int nbBytes = Serial.available();
     unsigned char *buffer = (unsigned char*) malloc(nbBytes);
 
-    for( int i = 0; i < nbBytes && i < controller.getRxBufferSize(); ++i){
+    for( int i = 0; i < nbBytes && i < controller.getRxBufferSize(); ++i) {
         buffer[i] = Serial.read();
     }
 
@@ -43,7 +45,7 @@ void loop(void){
     controller.process(buffer, nbBytes);
 
     free(buffer);
-*/
+    */
 }
 /**
  * Sending bytes to arduino mega
