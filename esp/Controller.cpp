@@ -72,11 +72,10 @@ void Controller::process(byte rxBytes[], int nbIncomingBytes) {
 
 void Controller::testPost() {
 
-    Serial.print("Sending data...");
+    writeOnSerial("Sending data...");
 
     byte answer = wiFiCommunication.authenticate("yoo","juu");
 
-    delay(1000);
-    Serial.print(" -> Test Function result: ");
-    Serial.println(answer);
+    writeOnSerial(" -> Test Function result: ");
+    writeByteOnSerial(answer);
 }

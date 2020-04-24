@@ -4,12 +4,14 @@
 
 #include "WiFiCommunication.h"
 #include "HTTPAnswer.h"
+#include "Base.h"
+#include "../config/config.h"
+
 #include <WiFi.h>
 #include <WiFiMulti.h>
-#include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Arduino.h>
-#include "../config/config.h"
+#include <HTTPClient.h>
 
 bool WiFiCommunication::connect() {
 
@@ -33,31 +35,51 @@ bool WiFiCommunication::isConnected() {
 }
 
 
-byte WiFiCommunication::authenticate(String uid, String password){
-    Serial.println("Entering func");
+byte WiFiCommunication::authenticate(String uid, String password) {
+
     HTTPClient http;
-    http.begin("https://paybeer.artefactori.ch/api/login", this->ROOT_CA);
+//    http.begin("https://paybeer.artefactori.ch/api/login?tag_rfid=123456&pin_number=12345", this->ROOT_CA);
+    http.begin("http://192.168.1.102:8000/api/login");
     http.addHeader("accept","application/json");
     http.addHeader("Content-Type", " application/x-www-form-urlencoded");
-    int htCode = http.POST("tag_rfid=123456&pin_number=1241");
-    String response = http.getString();
-#ifndef nDebug
-    Serial.print("Answer = ");
-    Serial.println(response);
 
-    Serial.println("Before http end");
-    Serial.println("Finished func");
+    int htCode;
+    htCode = http.POST("tag_rfid=319765&pin_number=62377");
+    String response = http.getString();
+
+    http.end();
+
+#ifndef nDebug
+    writeOnSerial("Answer = ");
+    writeOnSerial(response);
+
+    writeOnSerial("HtCode = ");
+    writeIntOnSerial(htCode);
 #endif
 
-    if(htCode == 200){
+    if (htCode == 200) {
+
         DeserializationError error = deserializeJson(jsonObject, response);
-        if(error) return SERIALCODE_UNKOWN_ERROR;
+
+        if (error) {
+            return SERIALCODE_UNKOWN_ERROR;
+        }
+
         token = jsonObject["token"];
-    }else if(htCode == 400){
+
+#ifndef nDebug
+        writeOnSerial("Token set to:");
+        writeOnSerial(token);
+#endif
+        return SERIALCODE_LOGIN_OK;
+    }
+    else if (htCode == 400) {
         return SERIALCODE_LOGIN_WRONG_PARAM;
-    }else if(htCode == 401){
+    }
+    else if (htCode == 401) {
         return SERIALCODE_LOGIN_WRONG_LOGIN;
-    }else{
+    }
+    else {
         return SERIALCODE_UNKOWN_ERROR;
     }
 }

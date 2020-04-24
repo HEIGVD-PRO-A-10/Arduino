@@ -1,2 +1,5 @@
 main/build-mega-atmega2560/
 .idea/
+esp/build.lolin32-1.0.4/
+
+main/cmake-build-debug/CMakeFiles/clion-log.txt
