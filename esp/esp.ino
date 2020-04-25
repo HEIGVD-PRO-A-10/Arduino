@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include "Base.h"
+#include "../config/config.h"
 
 Controller controller;
 
@@ -14,16 +15,32 @@ Controller controller;
  */
 void setup(void) {
 
-#ifndef nDebug
-    pinMode(2,OUTPUT);
-	Serial.begin(9600);
-    digitalWrite(2,HIGH);
-	delay(5000);
-    digitalWrite(2,LOW);
-#endif
+    delay(GLOBAL_SETUP_WAIT);
 
-   controller.setup();
-   delay(10 * 1000);
+    bool setupOk;
+
+    // Led on while setting up
+    pinMode(2,OUTPUT);
+    digitalWrite(2,HIGH);
+
+    Serial.begin(9600);
+
+    setupOk = controller.setup();
+
+    // Delay to wait for Arduino setup
+    delay(10 * 1000);
+
+    if (setupOk) {
+        Serial.write(SERIALCODE_WIFI_OK);
+    }
+    else {
+        // Reste ici si pas de connection
+        Serial.write(SERIALCODE_NO_WIFI);
+        while(1);
+    }
+
+    digitalWrite(2,LOW);
+
 }
 
 /**
@@ -31,9 +48,9 @@ void setup(void) {
  */
 void loop(void) {
 
-    delay(2000);
-    controller.testPost();
-/*
+//    delay(2000);
+//    controller.testPost();
+
     int nbBytes = Serial.available();
     unsigned char *buffer = (unsigned char*) malloc(nbBytes);
 
@@ -45,7 +62,7 @@ void loop(void) {
     controller.process(buffer, nbBytes);
 
     free(buffer);
-    */
+
 }
 /**
  * Sending bytes to arduino mega
@@ -57,8 +74,6 @@ void writeOnSerial(char *bytes, unsigned int nbBytes) {
     for (int i = 0; i < nbBytes; ++i) {
         Serial.write(bytes[i]);
     }
-
-    Serial.println("");
 }
 
 /**
@@ -67,7 +82,7 @@ void writeOnSerial(char *bytes, unsigned int nbBytes) {
  */
 void writeOnSerial(String msg) {
 
-    Serial.println(msg);
+    Serial.print(msg);
 }
 
 /**
@@ -76,7 +91,7 @@ void writeOnSerial(String msg) {
  */
 void writeByteOnSerial(byte b) {
 
-    Serial.println(b, HEX);
+    Serial.print(b, HEX);
 }
 
 /**
@@ -85,5 +100,5 @@ void writeByteOnSerial(byte b) {
  */
 void writeIntOnSerial(int i) {
 
-    Serial.println(i);
+    Serial.print(i);
 }

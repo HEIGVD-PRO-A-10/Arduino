@@ -15,7 +15,6 @@ void RFIDReader::setup() {
     mfrc522.PCD_Init();
     delay(4);				// On peut avoir des soucis sans le délai
     mfrc522.PCD_DumpVersionToSerial();
-    Serial.println(F("RFIDReader init done. Scan a tag to get its UID..."));
 
 }
 

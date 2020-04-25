@@ -6,7 +6,7 @@ MainController mainController;
 
 void setup() {
 
-    delay(5000);
+    delay(GLOBAL_SETUP_WAIT);
 
     Serial.begin(9600);		// Init du serial
     while (!Serial);		// Attends que le serial soit fonctionnel
@@ -18,4 +18,5 @@ void setup() {
 void loop() {
 
     mainController.mss();
+
 }

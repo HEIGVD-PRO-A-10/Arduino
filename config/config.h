@@ -6,7 +6,8 @@
 #define ARDUINO_CONFIG_H
 
 // General
-#define PIN_LENGTH      0x4
+#define PIN_LENGTH          0x4
+#define GLOBAL_SETUP_WAIT   5000                    // Used to have time to monitor everything
 
 // ESP Config
 //#define ESP32_INIT_CODE_OK      "{code:100}\n"
@@ -17,8 +18,6 @@
 
 // RFID
 #define RFID_UID_SIZE   0x4
-
-
 
 // Defintion serial codes
 

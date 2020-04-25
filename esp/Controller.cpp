@@ -11,16 +11,14 @@
 
 Controller::Controller() : rxBuffer_index(0), zx(0) {}
 
-void Controller::setup() {
+bool Controller::setup() {
     // init Wifi
     bool wifiStatus = wiFiCommunication.connect();
 
     if(wifiStatus){
-        Serial.write(SERIALCODE_WIFI_OK);
+        return true;
     }else{
-        Serial.write(SERIALCODE_NO_WIFI);
-        // Stop here if wifi is not working
-        while(1);
+        return false;
     }
 }
 

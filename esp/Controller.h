@@ -30,8 +30,10 @@ public:
     Controller();
     /**
      * Setup. Connects to WIFI
+     *
+     * @return true if setup was ok, returns false sinon
      */
-    void setup();
+    bool setup();
     /**
      * Main process function. Must be called at each loop.
      */

@@ -10,7 +10,8 @@
 
 #include "MainController.h"
 
-#define TIMEOUT_PIN_DELTA   30 * 1000
+#define TIMEOUT_PIN_DELTA       30 * 1000
+#define HEX_TO_DECIMAL_OFFSET   0x30
 
 MainController::MainController() : zx(0),
                                    uIdSize(0),
@@ -48,12 +49,22 @@ void MainController::mss() {
 
             byte answer = espConnection.readAnswerFromEsp();
 
+#ifndef nDebug
+            Serial.print("zx = 0; Got answer: 0x");
+            Serial.println(answer, HEX);
+#endif
+
             if (answer == SERIALCODE_WIFI_OK) {
 
                 zx = 10;
-                lcdDisplayer.displayString("Scan admin card...");
+                lcdDisplayer.displayString("Scan admin card");
             }
             else {
+
+                lcdDisplayer.clearDisplay();
+                lcdDisplayer.displayString("No connection...");
+                lcdDisplayer.setCursor(1, 0);
+                lcdDisplayer.displayString("Reset Arduino");
 
                 zx = 400;
             }
@@ -64,6 +75,14 @@ void MainController::mss() {
     case 10:
 
         if (rfidReader.read()) {
+
+#ifndef nDebug
+            Serial.print("zx = 10; Scanned a card:");
+            for (size_t i = 0; i < RFID_UID_SIZE; i++) {
+                Serial.print(uId[i], HEX);
+            }
+            Serial.println("");
+#endif
 
             uIdSize = rfidReader.getUIdBytes(uId);
 
@@ -78,6 +97,7 @@ void MainController::mss() {
 
             lcdDisplayer.clearDisplay();
             lcdDisplayer.displayString("Enter PIN code");
+            lcdDisplayer.setCursor(1, 0);
 
             timeoutStart = millis();
             zx = 20;
@@ -90,16 +110,31 @@ void MainController::mss() {
 
         nmpController.read();
         zx = 30;
+
+#ifndef nDebug
+        Serial.println("zx = 20; Enabled Read");
+#endif
+
         break;
 
     // Read pin
     case 30:
 
+        nmpController.mss();
+
         if (nmpController.readDone()) {
 
             byte value = nmpController.value();
 
+#ifndef nDebug
+            Serial.print("zx = 30; Read value: 0x");
+            Serial.println(value, HEX);
+#endif
             if (value == (byte) 0xC) {
+
+                lcdDisplayer.clearDisplay();
+                lcdDisplayer.displayString("Enter PIN code");
+                lcdDisplayer.setCursor(1, 0);
 
                 pinLengthCounter = 0;
                 zx = 20;
@@ -111,8 +146,8 @@ void MainController::mss() {
                 return;
             }
 
-            pin[pinLengthCounter] = value;
-            pinLengthCounter++;
+            pin[pinLengthCounter++] = value;
+            lcdDisplayer.displayString("*");
 
             if (pinLengthCounter == 4) {
 
@@ -120,8 +155,18 @@ void MainController::mss() {
                 lcdDisplayer.displayString("Processing...");
                 zx = 40;
             }
+            else {
+                zx = 20; // Read again every time, to reset value
+            }
+
         }
-        else if (millis() - TIMEOUT_PIN_DELTA > timeoutStart) {
+        else if (millis() > timeoutStart + TIMEOUT_PIN_DELTA) {
+
+#ifndef nDebug
+            Serial.println("zx = 30; Timeout");
+#endif
+            lcdDisplayer.clearDisplay();
+            lcdDisplayer.displayString("Scan admin card");
 
             zx = 10;
         }
@@ -129,6 +174,14 @@ void MainController::mss() {
 
     // Send data to server
     case 40:
+
+#ifndef nDebug
+            Serial.print("zx = 40; Pin code:");
+            for (int i = 0; i < PIN_LENGTH; i++) {
+                Serial.print(pin[i], HEX);
+            }
+            Serial.println("");
+#endif
 
         espConnection.sendCmdToEsp(SERIALCOMMAND_BARMAN_AUTHENTICATION);
 
@@ -139,7 +192,8 @@ void MainController::mss() {
 
         // Send pin
         for (size_t i = 0; i < PIN_LENGTH; i++) {
-            espConnection.sendCmdToEsp(pin[i]);
+            // Send the decimal '0' as char, not 0x0
+            espConnection.sendCmdToEsp(pin[i] + HEX_TO_DECIMAL_OFFSET);
         }
         zx = 50;
         break;
@@ -151,11 +205,17 @@ void MainController::mss() {
 
             byte answer = espConnection.readAnswerFromEsp();
 
+#ifndef nDebug
+            Serial.print("zx = 50; Answer:");
+            Serial.println(answer, HEX);
+#endif
+
             if (answer == SERIALCODE_LOGIN_OK) {
 
                 zx = 60;
             }
             else { // TODO c'est faux de mettre ce if ici non? "if (answer.equals(ESP32_AUTH_CODE_FAIL)) {"
+                   //   je vois pas de quelle variable tu parles.. Et le == est très bien c'est un byte
 
                 zx = 10;
             }
@@ -172,10 +232,6 @@ void MainController::mss() {
     // Connection error
     case 400:
 
-        lcdDisplayer.clearDisplay();
-        lcdDisplayer.displayString("No connection...");
-        lcdDisplayer.setCursor(1, 0);
-        lcdDisplayer.displayString("Please Reset Arduino");
         break;
     }
 

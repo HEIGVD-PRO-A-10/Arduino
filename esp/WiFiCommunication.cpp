@@ -19,8 +19,11 @@ bool WiFiCommunication::connect() {
     delay(1);
     WiFi.begin(this->SSID, this->PASSWORD);
 
-    for(int i = 0; i < this->CONNECT_TIMEOUT; ++i){
+    for(int i = 0; i < this->CONNECT_TIMEOUT; ++i) {
+
+#ifndef nDebug
         Serial.println(WiFi.status());
+#endif
         if(WiFi.status() == WL_CONNECTED){
             this->connected = true;
             return true;

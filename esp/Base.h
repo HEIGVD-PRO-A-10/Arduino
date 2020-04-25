@@ -6,7 +6,7 @@
 #define TERMINAL_BASE_H
 
 //MODE
-//#define nDebug
+#define nDebug
 
 void writeOnSerial(char *bytes, unsigned int nbBytes);
 void writeOnSerial(String msg);
