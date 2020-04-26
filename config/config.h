@@ -8,6 +8,7 @@
 // General
 #define PIN_LENGTH          0x4
 #define GLOBAL_SETUP_WAIT   5000                    // Used to have time to monitor everything
+#define ESP32_CMD_LENGTH    0x1                       // In bytes
 
 // ESP Config
 //#define ESP32_INIT_CODE_OK      "{code:100}\n"

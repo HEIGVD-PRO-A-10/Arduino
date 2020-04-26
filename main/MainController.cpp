@@ -1,9 +1,5 @@
 /**
  * Main controller
- *
- * Always call setup() method before usage
- * Call mss() in every loop
- *
  */
 
 #include <Arduino.h>
@@ -206,16 +202,23 @@ void MainController::mss() {
             byte answer = espConnection.readAnswerFromEsp();
 
 #ifndef nDebug
-            Serial.print("zx = 50; Answer:");
+            Serial.print("zx = 50; Answer: 0x");
             Serial.println(answer, HEX);
 #endif
 
             if (answer == SERIALCODE_LOGIN_OK) {
 
+                lcdDisplayer.clearDisplay();
+                lcdDisplayer.displayString("Welcome !");
+
                 zx = 60;
             }
-            else { // TODO c'est faux de mettre ce if ici non? "if (answer.equals(ESP32_AUTH_CODE_FAIL)) {"
-                   //   je vois pas de quelle variable tu parles.. Et le == est très bien c'est un byte
+            else {
+
+                lcdDisplayer.clearDisplay();
+                lcdDisplayer.displayString("Invalid...");
+                lcdDisplayer.setCursor(1,0);
+                lcdDisplayer.displayString("Scan admin card");
 
                 zx = 10;
             }
@@ -225,8 +228,6 @@ void MainController::mss() {
     // Barman Welcome
     case 60:
 
-        lcdDisplayer.clearDisplay();
-        lcdDisplayer.displayString("Welcome !");
         break;
 
     // Connection error

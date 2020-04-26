@@ -91,7 +91,7 @@ void writeOnSerial(String msg) {
  */
 void writeByteOnSerial(byte b) {
 
-    Serial.print(b, HEX);
+    Serial.write(b);
 }
 
 /**

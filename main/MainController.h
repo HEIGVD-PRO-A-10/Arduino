@@ -1,6 +1,12 @@
-//
-// Created by nico on 19.04.20.
-//
+/**
+ * Main controller
+ *
+ * Always call setup() method before usage
+ * Call mss() in every loop
+ *
+ * A schéma of the MSS can be found in the doc
+ *
+ */
 
 #ifndef ARDUINO_MAINCONTROLLER_H
 #define ARDUINO_MAINCONTROLLER_H

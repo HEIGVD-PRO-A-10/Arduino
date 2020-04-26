@@ -40,7 +40,7 @@ void Controller::process(byte rxBytes[], int nbIncomingBytes) {
 
     // Copy bytes to rxBuffer
     for(int i = 0; i < nbIncomingBytes && i < BUFFER_SIZE; ++i){
-        rxBuffer[++rxBuffer_index] = rxBytes[i];
+        rxBuffer[rxBuffer_index++] = rxBytes[i];
     }
 
     // STATE MACHINE
@@ -56,7 +56,7 @@ void Controller::process(byte rxBytes[], int nbIncomingBytes) {
             break;
 
         case 100: // new Payment: wait on full command
-            if(rxBuffer_index >= 9) zx = 102;
+            if(rxBuffer_index >= ESP32_CMD_LENGTH + RFID_UID_SIZE + PIN_LENGTH) zx = 102;
             break;
 
        case 102: // new Payment: invoke payment function
