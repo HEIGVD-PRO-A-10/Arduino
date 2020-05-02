@@ -8,6 +8,7 @@
 
 #define TIMEOUT_PIN_DELTA       30 * 1000
 #define HEX_TO_DECIMAL_OFFSET   0x30
+#define MAX_DIGITS_AMOUNT       3
 
 MainController::MainController() : zx(0),
                                    uIdSize(0),
@@ -208,8 +209,6 @@ void MainController::mss() {
 
             if (answer == SERIALCODE_LOGIN_OK) {
 
-                lcdDisplayer.clearDisplay();
-                lcdDisplayer.displayString("Welcome !");
 
                 zx = 60;
             }
@@ -227,12 +226,89 @@ void MainController::mss() {
 
     // Barman Welcome
     case 60:
+        nmpController.read();
+        lcdDisplayer.clearDisplay();
+        lcdDisplayer.displayString("A: Pay, B: Re");
+        lcdDisplayer.setCursor(1,0);
+        lcdDisplayer.displayString("C: New, D: Bye");
 
+        zx = 70;
         break;
 
+    // Wait input A: pay, B: RE, C: NEW, D: Bye
+    case 70:
+        nmpController.mss();
+        if(nmpController.readDone()){
+            isDebit = false;
+            switch (nmpController.value()){
+                case 0xA: // Debit
+                    isDebit = true;
+                case 0xB: // Credit
+                    zx = 100;
+                    lcdDisplayer.clearDisplay();
+                    lcdDisplayer.displayString("Amount:");
+                    lcdDisplayer.setCursor(0, 1);
+                    amountBufferCounter = 0;
+                    break;
+                case 0xC: // New Client
+                    zx = 200;
+                    break;
+                case 0xD: // Bye
+                    lcdDisplayer.clearDisplay();
+                    lcdDisplayer.displayString("Scan admin card");
+                    zx = 10;
+                    break;
+                default:
+                    zx = 60;
+            }
+        }
+        break;
+
+    // Enable read for transaction
+    case 100:
+
+        nmpController.read();
+        zx = 110;
+        break;
+
+    // Wait on input
+    case 110:
+        nmpController.mss();
+        if(nmpController.readDone()){
+            if(nmpController.value() == 0xF){ // #
+                amount = 0;
+                for (int i = 0; i < amountBufferCounter; i++) {
+                    amount += amountBuffer[i] * pow(10, i);
+                }
+                if(amount > 100){
+                    amountBufferCounter = 0;
+                    lcdDisplayer.clearDisplay();
+                    lcdDisplayer.displayString("Amount:");
+                    lcdDisplayer.setCursor(0, 1);
+                    zx = 100;
+                }else{
+                    zx = 120;
+                }
+            }else if (nmpController.value() <= 0x9){ // digit
+                if(amountBufferCounter != MAX_DIGITS_AMOUNT){
+                    amountBuffer[amountBufferCounter++] = nmpController.value();
+                    lcdDisplayer.displayByte(48 +  nmpController.value());
+                }
+                zx = 100;
+            }else if (nmpController.value() == 0xC){ // clear
+                amountBufferCounter = 0;
+                zx = 100;
+                lcdDisplayer.clearDisplay();
+                lcdDisplayer.displayString("Amount:");
+                lcdDisplayer.setCursor(0, 1);
+            }else {
+                zx = 100;
+            }
+        }
+
+        break;
     // Connection error
     case 400:
-
         break;
     }
 

@@ -19,6 +19,7 @@
 
 #define MAX_UID_SIZE        10    // UID ne fera jamais plus que 10 bytes
 
+
 class MainController {
 public:
 
@@ -43,6 +44,12 @@ private:
     size_t  pinLengthCounter;
     byte    pin[PIN_LENGTH];
 
+    bool    isDebit;
+
+    byte    amountBuffer[3];
+    int     amountBufferCounter;
+
+    byte    amount;
 
 };
 
