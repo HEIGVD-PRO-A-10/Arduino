@@ -1,29 +1,68 @@
-//
-// Created by deni on 02/04/2020.
-//
+/**
+ * File : WiFiCommunication.h
+ * Project : PayBeer Terminal (Esp32)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
+ * Controller for WiFi connection. Contains WiFi Credentials and functions for different functionalities.
+ *
+ */
 
 #ifndef TERMINAL_WIFICOMMUNICATION_H
 #define TERMINAL_WIFICOMMUNICATION_H
 
 
-#include "HTTPAnswer.h"
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
+
 class WiFiCommunication {
 public:
+    /**
+     * Connects to the WiFi
+     * @return true if connection ok, else false.
+     */
     bool connect();
+
+    /**
+     * Questening the current wifi status
+     * @return true if wifi connected.
+     */
     bool isConnected();
+
+    /**
+     * Authenticate Barman functionality. This function saves the token.
+     * @param uid Barman UID
+     * @param password Barman PIN
+     * @return SerialCode representing answer, defined in config.h file.
+     */
     byte authenticate(String uid, String password);
 
+    /**
+     * New User functionality. Registers a new User in the System.
+     * @param uid New Uid to register
+     * @return SerialCode representing answer, defined in config.h file.
+     */
+    byte newUser(String uid);
+
+    /**
+     * Transaction functionality. Used for credit or debit.
+     * @param uid Client UID
+     * @param amount Amount can be positive or negative
+     * @return SerialCode representing answer, defined in config.h file.
+     */
+    byte transaction(String uid, String amount);
+
 private:
-    const char* SSID = "nico";
-    const char* PASSWORD = "ff69866b3900";
-    const int CONNECT_TIMEOUT = 60; // In seconds
-    StaticJsonDocument<512> jsonObject;
-    bool connected = false;
-    const char* token;
-    const char* ROOT_CA = "-----BEGIN CERTIFICATE-----\n"
+    const char *SSID = "EEE_2.4Ghz";                        // WiFi SSID
+    const char *PASSWORD = "rentschforpresident";           // WiFi Password
+    const String SERVER = "http://192.168.1.42:8000";       // Name of Synphony server
+    const int CONNECT_TIMEOUT = 60;                         // In seconds
+    StaticJsonDocument<512> jsonObject;                     // JSON object for token extraction
+    const char* token;                                      // Current Token
+
+    const char* ROOT_CA = "-----BEGIN CERTIFICATE-----\n"   // Trusted Root certificate
                           "MIIDSjCCAjKgAwIBAgIQRK+wgNajJ7qJMDmGLvhAazANBgkqhkiG9w0BAQUFADA/\n"
                           "MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT\n"
                           "DkRTVCBSb290IENBIFgzMB4XDTAwMDkzMDIxMTIxOVoXDTIxMDkzMDE0MDExNVow\n"
@@ -44,6 +83,5 @@ private:
                           "Ob8VZRzI9neWagqNdwvYkQsEjgfbKbYK7p2CNTUQ\n"
                           "-----END CERTIFICATE-----";
 };
-
 
 #endif //TERMINAL_WIFICOMMUNICATION_H

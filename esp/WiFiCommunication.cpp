@@ -3,7 +3,6 @@
 //
 
 #include "WiFiCommunication.h"
-#include "HTTPAnswer.h"
 #include "Base.h"
 #include "../config/config.h"
 
@@ -25,7 +24,6 @@ bool WiFiCommunication::connect() {
         Serial.println(WiFi.status());
 #endif
         if(WiFi.status() == WL_CONNECTED){
-            this->connected = true;
             return true;
         }
         delay(1000);
@@ -34,39 +32,77 @@ bool WiFiCommunication::connect() {
 }
 
 bool WiFiCommunication::isConnected() {
-    return this->isConnected();
+    return WiFi.status() == WL_CONNECTED;
 }
 
+byte WiFiCommunication::newUser(String uid) {
+    HTTPClient http;
+    http.begin(SERVER + "/api/new-user"); //, this->ROOT_CA);
+    http.addHeader("accept","application/json");
+    http.addHeader("Authorization",  String("Bearer ") + token);
+    http.addHeader("Content-Type", " application/x-www-form-urlencoded");
+
+    int htCode;
+    String payload = "tag_rfid=" + uid;
+
+    htCode = http.POST(payload);
+    String response = http.getString();
+    http.end();
+
+    switch (htCode){
+        case 201:
+            return SERIALCODE_NEWUSER_OK;
+        case 400:
+            return SERIALCODE_NEWUSER_ERROR;
+        case 401:
+            return SERIALCODE_TOKEN_NOT_VALID;
+    }
+    return SERIALCODE_UNKOWN_ERROR;
+}
+
+byte WiFiCommunication::transaction(String uid, String amount) {
+    HTTPClient http;
+    http.begin(SERVER + "/api/transaction"); //, this->ROOT_CA);
+    http.addHeader("accept","application/json");
+    http.addHeader("Authorization",  String("Bearer ") + token);
+    http.addHeader("Content-Type", " application/x-www-form-urlencoded");
+
+    int htCode;
+    String payload = "tag_rfid=" + uid + "&amount=" + amount + "&num_terminal=1";
+
+    htCode = http.POST(payload);
+    String response = http.getString();
+    http.end();
+
+    switch (htCode){
+        case 201:
+            return SERIALCODE_TRANSACTION_OK;
+        case 451:
+            return SERIALCODE_TRANSACTION_NOT_ENOUGH_CREDIT;
+        case 450:
+            return SERIALCODE_TRANSACTION_NOT_VALID_CARD;
+        case 401:
+            return SERIALCODE_TOKEN_NOT_VALID;
+    }
+    return SERIALCODE_UNKOWN_ERROR;
+}
 
 byte WiFiCommunication::authenticate(String uid, String password) {
 
     HTTPClient http;
-//    http.begin("https://paybeer.artefactori.ch/api/login?tag_rfid=123456&pin_number=12345", this->ROOT_CA);
-    http.begin("http://192.168.1.102:8000/api/login");
+    http.begin(SERVER + "/api/login"); //, this->ROOT_CA);
     http.addHeader("accept","application/json");
     http.addHeader("Content-Type", " application/x-www-form-urlencoded");
 
     int htCode;
     String payload = "tag_rfid=" + uid + "&pin_number=" + password;
 
-#ifndef nDebug
-    writeOnSerial("Sending = ");
-    writeOnSerial(payload);
-#endif
-
     htCode = http.POST(payload);
     String response = http.getString();
 
     http.end();
 
-#ifndef nDebug
-    writeOnSerial("Answer = ");
-    writeOnSerial(response);
-
-    writeOnSerial("HtCode = ");
-    writeIntOnSerial(htCode);
-#endif
-
+    //TODO SWITCH CASE
     if (htCode == 200) {
 
         DeserializationError error = deserializeJson(jsonObject, response);

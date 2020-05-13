@@ -1,13 +1,10 @@
-//
-// Created by deni on 02/04/2020.
-//
-
-#ifndef TERMINAL_CONTROLLER_H
-#define TERMINAL_CONTROLLER_H
-
-#include "WiFiCommunication.h"
 /**
- * Controller class:
+ * File : Controller.h
+ * Project : PayBeer Terminal (Esp32)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
  * The controller class is the main brain of the ESP module.
  *
  * The object controls the flow between the incoming Serial line from the Aruino Mega, invokes the http request and
@@ -19,9 +16,14 @@
  * The process function should be called at each loop of the system and passing the new bytes (if available) read on
  * the incoming serial line.
  * The object contains a ZX value which indicates the actual State of the MSS.
- *
- *
  */
+
+
+#ifndef TERMINAL_CONTROLLER_H
+#define TERMINAL_CONTROLLER_H
+
+#include "WiFiCommunication.h"
+
 class Controller {
 public:
     /**
@@ -44,9 +46,27 @@ public:
      */
     unsigned int getRxBufferSize();
 
-    void testPost();
+    /**
+     * Questening the current wifi status
+     * @return true if wifi connected.
+     */
+    bool wifiConnected();
 
 private:
+    /**
+     * Helper function for converting String from UID array
+     * @param uid array containing UID
+     * @return Same in String
+     */
+    String generateUIDStringFromUID(const char* uid);
+
+    /**
+     * Helper function for converting String from pin array
+     * @param uid array containing pin
+     * @return Same in String
+     */
+    String generatePINStringFromPIN(const char* pin);
+
     /**
      * RX buffer size
      */
@@ -62,7 +82,6 @@ private:
      */
     unsigned int rxBuffer_index;
 
-
     /**
      * programm status
      */
@@ -72,9 +91,6 @@ private:
      * Wifi Communication controller Object
      */
     WiFiCommunication wiFiCommunication;
-
-    String generateUIDStringFromUID(const char* uid);
-    String generatePINStringFromPIN(const char* pin);
 
 };
 

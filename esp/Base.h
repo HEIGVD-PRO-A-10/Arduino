@@ -1,6 +1,12 @@
-//
-// Created by deni on 02/04/2020.
-//
+/**
+ * File : Base.h
+ * Project : PayBeer Terminal (Esp32)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
+ * Header for common Arduino functions.
+ */
 
 #ifndef TERMINAL_BASE_H
 #define TERMINAL_BASE_H
