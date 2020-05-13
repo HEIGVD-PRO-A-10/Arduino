@@ -1,10 +1,17 @@
-//
-// Created by deni on 18/04/2020.
-//
+/**
+* File : NumpadController.cpp
+* Project : PayBeer Terminal (Arduino Mega)
+* Date : 13.05.2020
+* Author : Denis Bourqui, Nicolas Müller
+*
+* Description :
+* Implementation of NumpadController class.
+*/
 
 #include "NumpadController.h"
 #include <Arduino.h>
 
+/* Arduino Pins */
 #define COLUMN_1_PIN 34
 #define COLUMN_2_PIN 35
 #define COLUMN_3_PIN 36

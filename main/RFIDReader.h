@@ -1,18 +1,16 @@
 /**
- * Crée le 31.03.2020
+ * File : RFIDReader.h
+ * Project : PayBeer Terminal (Arduino Mega)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
  *
- * Classe qui permet d'intéragir avec le lecteur RFID
+ * Description :
+ * Controller for RFID reader module.
+ * - Always call setup() function before usage.
+ * - Once setup is done, you can call read() to know if a card is present or not.
+ * - Once read() returned true, you can access to the ID of the card with getUIdBytes().
  *
- * Utilisation:
- * - Il faut dans tous les cas appeler la méthode setup() avant
- *   de pouvoir effectuer des lectures
- * - Une fois setup, il est possible de lire si une nouvelle
- *   carte est scannée avec la méthode read()
- * - Dès que l'information est lue, il est possible de la
- *   récupérer ou de l'afficher.
- *
- * Exemple d'utilisation:
- *
+ * Usage Example:
     RFIDReader rfidReader;
     rfidReader.setup();
     byte uId[MAX_UID_SIZE];
@@ -30,8 +28,7 @@
         Serial.println("");
 
     }
- *
- */
+*/
 
 #ifndef ARDUINO_RFIDREADER_H
 #define ARDUINO_RFIDREADER_H
@@ -50,30 +47,28 @@ private:
 public:
 
     /**
-     * Initialise le lecteur de carte RFID
+     * Initialise the reader
      */
     void setup();
 
     /**
-     * Teste si une carte peut être lue et récupère les informations
-     * si elle le peut.
+     * Checks if a card is available.
      *
-     * @return true si quelque chose à pu être lu, false sinon
+     * @return true if card has been read. Else false.
      */
     bool read();
 
     /**
-     * Affiche l'Uid si une carte a été lue
+     * print on serial the read UID. Only used for debuging
      */
     void printUid();
 
     /**
-     * Permet de récupérer l'UId qui a été lu. L'information se trouve
-     * sous la forme d'un tableau de byte.
+     * Last UId that was read by de module.
      *
-     * @param array Tableau qui sera rempli avec les bytes de l'Uid
+     * @param array (In Out) that will be filled with the UID
      *
-     * @return le nombre de bytes qui ont pu être écrit dans array
+     * @return returns the length of the UID.
      */
     size_t getUIdBytes(byte *array);
 };

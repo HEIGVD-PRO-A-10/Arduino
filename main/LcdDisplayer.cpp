@@ -1,6 +1,13 @@
-//
-// Created by nico on 10.04.20.
-//
+/**
+ * File : LcdDisplayer.cpp
+ * Project : PayBeer Terminal (Arduino Mega)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
+ * Implementation of LcdDisplayer class
+ *
+*/
 
 #include "LcdDisplayer.h"
 
@@ -37,4 +44,9 @@ void LcdDisplayer::clearDisplay() {
 void LcdDisplayer::displayByte(byte toWrite) {
 
     lcd.print(toWrite, HEX);
+}
+
+void LcdDisplayer::displayDec(int toWrite) {
+
+    lcd.print(toWrite, DEC);
 }

@@ -1,6 +1,12 @@
-//
-// Created by nico on 31.03.20.
-//
+/**
+ * File : RFIDReader.cpp
+ * Project : PayBeer Terminal (Arduino Mega)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
+ * Implementation of RFIDReader class.
+*/
 
 #include <Arduino.h>
 

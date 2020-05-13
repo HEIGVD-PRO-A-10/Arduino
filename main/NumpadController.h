@@ -1,10 +1,25 @@
 /**
- * Used as Numpad controller.
+ * File : NumpadController.h
+ * Project : PayBeer Terminal (Arduino Mega)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
+ * Controller for Numpad buttons.
  *
  * 1) Always call setup() method before anything else
  * 2) Call mss method in each cycle
  *
- * Exemple d'utilisation
+ *
+ * Button identifier map:
+ * 0x1 0x2 0x3 0xA
+ * 0x4 0x5 0x6 0xB
+ * 0x7 0x8 0x9 0xC
+ * 0xE 0x0 0xF 0xD
+ *
+ * No button pushed: 0xFF
+ *
+ * Use Example:
  *
     NumpadController nmpController;
     nmpController.setup();
@@ -47,17 +62,7 @@
 #define BTN_VAL_ON_LINE_4 {BTN_STAR_VAL, BTN_0_VAL,  BTN_HASHTAG_VAL, BTN_D_VAL}
 
 #include <Arduino.h>
-/**
- * NumPad Controller Class.
- *
- * Button identifier map:
- * 0x1 0x2 0x3 0xA
- * 0x4 0x5 0x6 0xB
- * 0x7 0x8 0x9 0xC
- * 0xE 0x0 0xF 0xD
- *
- * No button pushed: 0xFF
- */
+
 class NumpadController {
 public:
 

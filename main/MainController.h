@@ -1,12 +1,17 @@
 /**
- * Main controller
+ * File : MainController.h
+ * Project : PayBeer Terminal (Arduino Mega)
+ * Date : 13.05.2020
+ * Author : Denis Bourqui, Nicolas Müller
+ *
+ * Description :
+ * Main controller of Arduino Mega. Contains State Machine for program flow.
  *
  * Always call setup() method before usage
- * Call mss() in every loop
- *
+ * Call mss() in every loop.
  * A schéma of the MSS can be found in the doc
- *
  */
+
 
 #ifndef ARDUINO_MAINCONTROLLER_H
 #define ARDUINO_MAINCONTROLLER_H
@@ -22,10 +27,21 @@
 
 class MainController {
 public:
-
+    /**
+     * Default constructor. Init local vars.
+     */
     MainController();
+
+    /**
+     * Calls setup on every module (RFID, NUMPAD, ESP Connection, LCD)
+     */
     void setup();
-    void mss();
+
+    /**
+     * Main State machine. Controls program flow.
+     * @param nResetButton Reset Push Button for aborting user inputs such as Read amount, Read RFID card.
+     */
+    void mss(bool nResetButton);
 
 private:
 
@@ -34,22 +50,22 @@ private:
     LcdDisplayer lcdDisplayer;
     NumpadController nmpController;
 
-    int     zx;
+    int     zx;                         // state machine: current state
 
-    unsigned long timeoutStart;
+    unsigned long timeoutStart;         // timeout for waiting on PIN
 
-    byte    uId[MAX_UID_SIZE];
-    size_t  uIdSize;
+    byte    uId[MAX_UID_SIZE];          // RFID Card ID
+    size_t  uIdSize;                    // RFID read ID Size
 
-    size_t  pinLengthCounter;
-    byte    pin[PIN_LENGTH];
+    size_t  pinLengthCounter;           // Counter for PIN input
+    byte    pin[PIN_LENGTH];            // Pin
 
-    bool    isDebit;
+    bool    isDebit;                    // debit or credit flag
 
-    byte    amountBuffer[3];
-    int     amountBufferCounter;
+    byte    amountBuffer[3];            // Amount as array (debit or credit). One digit per Byte
+    int     amountBufferCounter;        // Amount buffer counter index
 
-    byte    amount;
+    byte    amount;                     // Amount in one byte
 
 };
 

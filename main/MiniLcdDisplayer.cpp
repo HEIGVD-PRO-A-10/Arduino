@@ -1,6 +1,16 @@
-//
-// Created by deni on 17/04/2020.
-//
+/**
+* File : MiniLcdDisplayer.cpp
+* Project :
+* Date : 13.05.2020
+* Author : Denis Bourqui, Nicolas Müller
+*
+* Description :
+* implementation of MiniLcdDisplayer class.
+*
+* Disclaimer :
+* This class is not used in our project at the moment and not tested at ALL!
+*/
+
 
 #include "MiniLcdDisplayer.h"
 
@@ -36,7 +46,7 @@ void MiniLcdDisplayer::clearScreen() {
 }
 
 void MiniLcdDisplayer::drawSmiley(bool happy) {
-    //TODO
+    //TODO implement bitmaps
     display.clearDisplay();
     display.setTextSize(1);
     display.setCursor(0, 0);
