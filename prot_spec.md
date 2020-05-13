@@ -19,6 +19,7 @@
 ```
 
 **Error 0xA0 -> 0xCF**
+
 ```
 0xA0 : Login Wrong param
 0xA1 : Wrong Login
@@ -93,7 +94,7 @@ participant ESP as esp
 participant API as api
 mega -> esp : code 0x30[1byte], tag_rfid[4bytes], amount[1byte]
 esp -> api: POST /transaction {tag_rfid, amount, num_terminal, jwt_token}
-api -> esp: TODO 401 : TODO
+api -> esp: 450 : TODO
 esp -> mega: code ko (0xA2)[1byte]
 ```
 
@@ -104,7 +105,7 @@ participant ESP as esp
 participant API as api
 mega -> esp : code 0x30[1byte], tag_rfid[4bytes], amount[1byte]
 esp -> api: POST /transaction {tag_rfid, amount, num_terminal, jwt_token}
-api -> esp: TODO 401 : TODO
+api -> esp: 451 : TODO
 esp -> mega: code ko (0xA3)[1byte]
 ```
 
