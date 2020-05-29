@@ -1,3 +1,22 @@
+# PayBeer - Terminal
+
+Terminal de paiement pour le système de prépaiement du ChillOut.
+
+
+
+**Equipe de développement:**
+
+| Name                                 | Email                        | Github            |
+|--------------------------------------|------------------------------|-------------------|
+| Gil Balsiger (chef de projet)        | gil.balsiger@heig-vd.ch      | balsigergil       |
+| Julien Béguin (chef de projet adj.)  | julien.beguin@heig-vd.ch     | jul0105           |
+| Denis Bourqui                        | denis.bourqui@heig-vd.ch     | doeni98           |
+| Mathias Maillard                     | mathias.maillard@heig-vd.ch  | mathias-maillard  |
+| Nicolas Müller                       | nicolas.muller1@heig-vd.ch   | Nic0Mueller       |
+| Thomas Rieder                        | thomas.rieder@heig-vd.ch     | thomasrieder      |
+
+[Pour la partie web, voir ici](https://github.com/HEIGVD-PRO-A-10/PayBeer)
+
 ## Installation de la SDK
 ### pour le MEGA
 ```Bash
@@ -107,3 +126,6 @@ sudo make monitor
 sudo screen /dev/ttyUSB0
 ```
 
+## Documentation
+
+Voir le document "Documentation technique (terminal)" fournit dans le dossier de rendu. 
